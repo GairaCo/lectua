@@ -440,6 +440,29 @@
       .ciclos-grid { grid-template-columns: 1fr; }
       .cards-2x2 { grid-template-columns: 1fr; }
     }
+
+    /* ── LOGIN (v1 demo) ── */
+    .nav-entrar { color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-right: 18px; transition: color .2s; cursor: pointer; }
+    .nav-entrar:hover { color: var(--dorado); }
+    .nav-user { color: var(--dorado); font-size: .85rem; font-weight: 700; margin-right: 14px; }
+    .nav-right { display: flex; align-items: center; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,34,25,.78); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--crema); border-radius: 16px; max-width: 400px; width: 100%; padding: 36px 32px 28px; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
+    .modal h3 { color: var(--verde); font-size: 1.5rem; margin-bottom: 4px; }
+    .modal .m-sub { font-size: .85rem; color: #666; margin-bottom: 18px; }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; }
+    .m-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .m-tab { flex: 1; padding: 8px; border-radius: 20px; border: 2px solid var(--crema-oscura); background: transparent; font-family: 'Lato', sans-serif; font-size: .82rem; font-weight: 700; color: #777; cursor: pointer; transition: all .2s; }
+    .m-tab.active { background: var(--verde); color: var(--crema); border-color: var(--verde); }
+    .m-field { margin-bottom: 12px; }
+    .m-field label { display: block; font-size: .75rem; font-weight: 700; color: var(--verde); margin-bottom: 4px; letter-spacing: .05em; text-transform: uppercase; }
+    .m-field input { width: 100%; padding: 11px 12px; border: 1px solid var(--crema-oscura); border-radius: 8px; background: var(--blanco); font-family: 'Lato', sans-serif; font-size: .95rem; }
+    .m-msg-error { display: none; background: #fdecea; color: #b3261e; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
+    .m-msg-ok { display: none; background: #e8f5e9; color: #1e7d32; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
+    .m-submit { width: 100%; padding: 13px; background: var(--dorado); color: var(--verde); border: none; border-radius: 26px; font-family: 'Lato', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; margin-top: 4px; transition: background .2s; }
+    .m-submit:hover { background: #e0bc6a; }
+    .m-demo { font-size: .72rem; color: #999; text-align: center; margin-top: 14px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -471,7 +494,10 @@
     <li><a href="#ciclos">Los 4 ciclos</a></li>
     <li><a href="#beneficios">Beneficios</a></li>
   </ul>
-  <a href="#pasaporte" class="nav-cta">Obtén tu Pasaporte</a>
+  <div class="nav-right">
+    <span id="nav-auth"><a class="nav-entrar" onclick="openAuth('login')">Entrar</a></span>
+    <a href="#pasaporte" class="nav-cta">Obtén tu Pasaporte</a>
+  </div>
 </nav>
 
 <!-- ── HERO ── -->
@@ -720,6 +746,33 @@
   <div class="footer-copy">© 2025 Lectua · Todos los derechos reservados</div>
 </footer>
 
+<!-- ── LOGIN MODAL (v1 demo) ── -->
+<div class="modal-overlay" id="auth-overlay" onclick="if(event.target===this)closeAuth()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()" aria-label="Cerrar">&times;</button>
+    <h3>Bienvenido a LECTUA</h3>
+    <p class="m-sub">Tu pasaporte a un mundo de historias.</p>
+    <div class="m-tabs">
+      <button class="m-tab" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="m-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</button>
+    </div>
+    <div class="m-msg-error" id="m-error"></div>
+    <div class="m-msg-ok" id="m-ok"></div>
+    <form id="form-login" onsubmit="doLogin(event)">
+      <div class="m-field"><label>Correo</label><input type="email" id="li-email" placeholder="hola@correo.com" required></div>
+      <div class="m-field"><label>Contraseña</label><input type="password" id="li-pass" placeholder="••••••••" required></div>
+      <button type="submit" class="m-submit">Entrar →</button>
+    </form>
+    <form id="form-registro" style="display:none" onsubmit="doRegister(event)">
+      <div class="m-field"><label>Tu nombre</label><input type="text" id="re-nombre" placeholder="Valentina Cruz" required></div>
+      <div class="m-field"><label>Correo</label><input type="email" id="re-email" placeholder="hola@correo.com" required></div>
+      <div class="m-field"><label>Contraseña</label><input type="password" id="re-pass" placeholder="Mínimo 6 caracteres" required></div>
+      <button type="submit" class="m-submit">Crear mi cuenta →</button>
+    </form>
+    <p class="m-demo">Versión demo: tu cuenta se guarda solo en este navegador.<br>Nada viaja a ningún servidor.</p>
+  </div>
+</div>
+
 <script>
   function showTab(tab) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -744,6 +797,61 @@
     el.style.transition = 'opacity .5s ease, transform .5s ease';
     observer.observe(el);
   });
+
+  // ── LOGIN (v1 demo · localStorage + SHA-256) ──
+  const $id = s => document.getElementById(s);
+  const esc = t => t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  async function sha256(t) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+  const getUsers = () => { try { return JSON.parse(localStorage.getItem('lectua_users')) || []; } catch { return []; } };
+  const saveUsers = u => localStorage.setItem('lectua_users', JSON.stringify(u));
+  const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+  function openAuth(tab) { $id('auth-overlay').classList.add('open'); switchTab(tab); }
+  function closeAuth() { $id('auth-overlay').classList.remove('open'); hideMsgs(); }
+  function hideMsgs() { $id('m-error').style.display = 'none'; $id('m-ok').style.display = 'none'; }
+  function showErr(m) { hideMsgs(); const e = $id('m-error'); e.textContent = m; e.style.display = 'block'; }
+  function showOk(m) { hideMsgs(); const o = $id('m-ok'); o.textContent = m; o.style.display = 'block'; }
+  function switchTab(tab) {
+    hideMsgs();
+    $id('tab-login').classList.toggle('active', tab === 'login');
+    $id('tab-registro').classList.toggle('active', tab === 'registro');
+    $id('form-login').style.display = tab === 'login' ? 'block' : 'none';
+    $id('form-registro').style.display = tab === 'registro' ? 'block' : 'none';
+  }
+  async function doRegister(ev) {
+    ev.preventDefault();
+    const nombre = $id('re-nombre').value.trim(), email = $id('re-email').value.trim().toLowerCase(), pass = $id('re-pass').value;
+    if (!nombre) return showErr('Cuéntanos tu nombre.');
+    if (!emailOk(email)) return showErr('Ese correo no parece válido.');
+    if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
+    const users = getUsers();
+    if (users.some(u => u.email === email)) return showErr('Ese correo ya tiene cuenta. Inicia sesión.');
+    users.push({ nombre, email, hash: await sha256(pass) });
+    saveUsers(users);
+    switchTab('login');
+    $id('li-email').value = email;
+    showOk('¡Cuenta creada, ' + nombre + '! Ahora inicia sesión.');
+  }
+  async function doLogin(ev) {
+    ev.preventDefault();
+    const email = $id('li-email').value.trim().toLowerCase(), pass = $id('li-pass').value;
+    const u = getUsers().find(u => u.email === email);
+    if (!u || u.hash !== await sha256(pass)) return showErr('Correo o contraseña incorrectos.');
+    localStorage.setItem('lectua_session', JSON.stringify({ nombre: u.nombre, email: u.email }));
+    closeAuth();
+    renderSession();
+  }
+  function logout() { localStorage.removeItem('lectua_session'); renderSession(); }
+  function renderSession() {
+    let s = null; try { s = JSON.parse(localStorage.getItem('lectua_session')); } catch {}
+    $id('nav-auth').innerHTML = s
+      ? '<span class="nav-user">Hola, ' + esc(s.nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
+      : '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
+  }
+  renderSession();
 </script>
 </body>
 </html>
