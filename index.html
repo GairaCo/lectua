@@ -355,7 +355,7 @@
       position: relative; overflow: hidden;
     }
     .pasaporte-cta::before {
-      content: '🐙';
+      content: '📖';
       position: absolute; right: -40px; bottom: -40px;
       font-size: 18rem; opacity: .04; line-height: 1;
     }
@@ -441,6 +441,33 @@
       .cards-2x2 { grid-template-columns: 1fr; }
     }
 
+
+    /* ── EVENTOS (gate + catálogo) ── */
+    .eventos { background: var(--crema); }
+    .gate-card { background: var(--verde); color: var(--crema); border-radius: 16px; padding: 48px 40px; text-align: center; max-width: 560px; margin: 40px auto 0; }
+    .gate-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--crema); }
+    .gate-card p { color: var(--crema-oscura); font-size: .95rem; margin-bottom: 24px; line-height: 1.6; }
+    .gate-card .btn-primary { border: none; cursor: pointer; font-family: 'Lato', sans-serif; }
+    .ev-cat { font-size: 1.05rem; color: var(--verde); margin: 44px 0 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .ev-badge { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 14px; font-family: 'Lato', sans-serif; }
+    .ev-free { background: var(--verde-claro); color: #fff; }
+    .ev-prem { background: var(--dorado); color: var(--verde); }
+    .eventos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .evento-card { background: #fff; border: 1px solid var(--crema-oscura); border-radius: 14px; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; transition: transform .2s, box-shadow .2s; }
+    .evento-card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+    .evento-card.prem { border: 2px solid var(--dorado); background: linear-gradient(180deg, #fff, #fdf8ec); }
+    .ev-fecha { font-size: .75rem; font-weight: 700; letter-spacing: .08em; color: var(--verde-claro); }
+    .evento-card.prem .ev-fecha { color: #a8842f; }
+    .evento-card h4 { color: var(--verde); font-size: 1.05rem; }
+    .evento-card p { font-size: .85rem; color: #555; line-height: 1.6; flex: 1; }
+    .ev-meta { font-size: .78rem; color: #8a8070; }
+    .ev-precio { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--verde); }
+    .ev-btn { display: block; text-align: center; padding: 11px; border-radius: 22px; background: var(--verde); color: var(--crema); text-decoration: none; font-size: .85rem; font-weight: 700; transition: opacity .2s; }
+    .ev-btn:hover { opacity: .9; }
+    .evento-card.prem .ev-btn { background: var(--dorado); color: var(--verde); }
+    .ev-nota { font-size: .78rem; color: #999; text-align: center; margin-top: 28px; }
+    @media (max-width: 900px) { .eventos-grid { grid-template-columns: 1fr; } }
+
     /* ── LOGIN (v1 demo) ── */
     .nav-entrar { color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-right: 18px; transition: color .2s; cursor: pointer; }
     .nav-entrar:hover { color: var(--dorado); }
@@ -471,20 +498,10 @@
 <nav>
   <a href="#" class="nav-logo">
     <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="30" cy="22" r="14" fill="#2d5a45" stroke="#c8a855" stroke-width="1.5"/>
-      <ellipse cx="25" cy="20" rx="3" ry="4" fill="#c8a855" opacity=".7"/>
-      <ellipse cx="35" cy="20" rx="3" ry="4" fill="#c8a855" opacity=".7"/>
-      <circle cx="25" cy="20" r="1.5" fill="#1e3a2f"/>
-      <circle cx="35" cy="20" r="1.5" fill="#1e3a2f"/>
-      <!-- tentáculos -->
-      <path d="M18 32 Q12 40 10 48" stroke="#c8a855" stroke-width="2" stroke-linecap="round"/>
-      <path d="M22 35 Q18 44 18 52" stroke="#c8a855" stroke-width="2" stroke-linecap="round"/>
-      <path d="M30 36 Q30 46 30 54" stroke="#c8a855" stroke-width="2" stroke-linecap="round"/>
-      <path d="M38 35 Q42 44 42 52" stroke="#c8a855" stroke-width="2" stroke-linecap="round"/>
-      <path d="M42 32 Q48 40 50 48" stroke="#c8a855" stroke-width="2" stroke-linecap="round"/>
-      <!-- libro -->
-      <rect x="22" y="16" width="16" height="12" rx="1" fill="none" stroke="#f5f0e8" stroke-width="1.2"/>
-      <line x1="30" y1="16" x2="30" y2="28" stroke="#f5f0e8" stroke-width="1"/>
+      <path d="M30 17 C25 12, 15 12, 11 15 V45 C15 42, 25 42, 30 47 C35 42, 45 42, 49 45 V15 C45 12, 35 12, 30 17 Z" fill="#2d5a45" stroke="#c8a855" stroke-width="1.6"/>
+      <line x1="30" y1="17" x2="30" y2="47" stroke="#f5f0e8" stroke-width="1.3"/>
+      <path d="M16 22 C20 20.5, 24 21, 27 23 M16 28 C20 26.5, 24 27, 27 29 M16 34 C20 32.5, 24 33, 27 35" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M33 23 C36 21, 40 20.5, 44 22 M33 29 C36 27, 40 26.5, 44 28 M33 35 C36 33, 40 32.5, 44 34" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
     </svg>
     LECTUA
   </a>
@@ -493,6 +510,7 @@
     <li><a href="#pilares">Los 5 pilares</a></li>
     <li><a href="#ciclos">Los 4 ciclos</a></li>
     <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#eventos">Eventos</a></li>
   </ul>
   <div class="nav-right">
     <span id="nav-auth"><a class="nav-entrar" onclick="openAuth('login')">Entrar</a></span>
@@ -505,7 +523,7 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-text">
-      <span class="eyebrow">🐙 Lee y Actúa · Comunidad de lectura y escritura</span>
+      <span class="eyebrow">Lee y Actúa · Comunidad de lectura y escritura</span>
       <h1>Leer te abre mundos.<br/>Escribir te da voz.<br/><em>Lectua es tu red de apoyo.</em></h1>
       <p>La lectura no tiene por qué ser una experiencia solitaria. En Lectua la compartes en comunidad, la conversas en voz alta y das el paso que muchos lectores anhelan: escribir tus propias historias. Aquí los usuarios leen, pero también actúan.</p>
       <p class="hero-tagline">Lee. Comparte. Escribe. Actúa.</p>
@@ -700,6 +718,76 @@
   </div>
 </section>
 
+<!-- ── EVENTOS ── -->
+<section class="eventos" id="eventos">
+  <div class="container">
+    <p class="section-label">Agenda</p>
+    <h2 class="section-title">Eventos para<br/><em>leer y actuar</em></h2>
+    <p class="section-sub">Vive la experiencia gratis con los eventos freemium y da el salto a las experiencias premium de cupo limitado.</p>
+    <div id="eventos-gate">
+      <div class="gate-card">
+        <h3>La agenda es solo para miembros</h3>
+        <p>Regístrate gratis en Lectua para desbloquear los eventos freemium y premium de la comunidad.</p>
+        <button class="btn-primary" onclick="openAuth('registro')">Registrarme gratis →</button>
+      </div>
+    </div>
+    <div id="eventos-contenido" style="display:none">
+      <h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Eventos gratuitos — vive la experiencia</h3>
+      <div class="eventos-grid">
+        <div class="evento-card">
+          <div class="ev-fecha">SÁB · 25 JUL 2026 · 4:00 P.M.</div>
+          <h4>Lectuante de estreno</h4>
+          <p>Lectura en voz alta + café en un aliado de Chapinero. La literatura cobra vida a través de la voz: trae tu libro favorito o solo ven a escuchar.</p>
+          <div class="ev-meta">📍 Café aliado · Bogotá · Cupo 30</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Reservar gratis →</a>
+        </div>
+        <div class="evento-card">
+          <div class="ev-fecha">MIÉ · 5 AGO 2026 · 6:30 P.M.</div>
+          <h4>Taller relámpago: Tu primera página</h4>
+          <p>45 minutos para dar el paso del lector al escritor. Sales con tu primera página escrita y ganas de seguir.</p>
+          <div class="ev-meta">📍 Librería aliada · Bogotá · Cupo 20</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Reservar gratis →</a>
+        </div>
+        <div class="evento-card">
+          <div class="ev-fecha">VIE · 14 AGO 2026 · 7:00 P.M.</div>
+          <h4>Micrófono abierto Lectube</h4>
+          <p>Noche de lecturas en voz alta: 5 minutos por lector para compartir el fragmento que te transformó. Las mejores voces se graban para Lectube.</p>
+          <div class="ev-meta">📍 Por confirmar · Bogotá · Entrada libre</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Reservar gratis →</a>
+        </div>
+      </div>
+      <h3 class="ev-cat"><span class="ev-badge ev-prem">Premium</span> Experiencias de cupo limitado</h3>
+      <div class="eventos-grid">
+        <div class="evento-card prem">
+          <div class="ev-fecha">SÁB · 22 AGO 2026 · 7:30 P.M.</div>
+          <h4>Cena literaria con autor invitado</h4>
+          <p>Tres tiempos, una mesa larga y una conversación íntima con un autor invitado. La experiencia insignia de Lectua.</p>
+          <div class="ev-meta">📍 Restaurante aliado · Bogotá · Cupo 20</div>
+          <div class="ev-precio">COP $150.000</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Comprar mi cupo →</a>
+        </div>
+        <div class="evento-card prem">
+          <div class="ev-fecha">INICIA MAR · 1 SEP 2026 · 4 SESIONES</div>
+          <h4>Ciclo completo: El Viaje</h4>
+          <p>Un mes de club guiado con la metodología de los 4 ciclos: lecturas, conversación y cuaderno de viaje incluido.</p>
+          <div class="ev-meta">📍 Café aliado · Bogotá · Cupo 15</div>
+          <div class="ev-precio">COP $180.000</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Comprar mi cupo →</a>
+        </div>
+        <div class="evento-card prem">
+          <div class="ev-fecha">DOM · 6 SEP 2026 · DÍA COMPLETO</div>
+          <h4>Lectour: ruta literaria de día completo</h4>
+          <p>Parques, librerías y rincones inspiradores con paradas de lectura y escritura. Incluye transporte, almuerzo y un libro sorpresa.</p>
+          <div class="ev-meta">📍 Salida desde Bogotá · Cupo 18</div>
+          <div class="ev-precio">COP $220.000</div>
+          <a class="ev-btn" href="https://lu.ma/lectua" target="_blank">Comprar mi cupo →</a>
+        </div>
+      </div>
+      <p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. Precios orientativos de lanzamiento.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ── CTA LECTUAMIGOS ── -->
 <section class="pasaporte-cta" id="lectuamigos">
   <div class="cta-inner">
@@ -738,7 +826,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div>
-    <div class="footer-logo">🐙 LECTUA</div>
+    <div class="footer-logo">LECTUA</div>
     <div class="footer-tagline">Lee y Actúa · Lee. Comparte. Escribe.</div>
   </div>
   <div class="footer-links">
@@ -855,6 +943,8 @@
     $id('nav-auth').innerHTML = s
       ? '<span class="nav-user">Hola, ' + esc(s.nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
       : '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
+    const gate = $id('eventos-gate'), agenda = $id('eventos-contenido');
+    if (gate && agenda) { gate.style.display = s ? 'none' : 'block'; agenda.style.display = s ? 'block' : 'none'; }
   }
   renderSession();
 </script>
