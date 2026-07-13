@@ -866,6 +866,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   function showTab(tab) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -891,15 +892,13 @@
     observer.observe(el);
   });
 
-  // ── LOGIN (v1 demo · localStorage + SHA-256) ──
+  // ── LOGIN (v2 · Supabase Auth) ──
   const $id = s => document.getElementById(s);
   const esc = t => t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  async function sha256(t) {
-    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
-    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
-  }
-  const getUsers = () => { try { return JSON.parse(localStorage.getItem('lectua_users')) || []; } catch { return []; } };
-  const saveUsers = u => localStorage.setItem('lectua_users', JSON.stringify(u));
+  const sb = window.supabase.createClient(
+    'https://ixplmujkrcothlzufjps.supabase.co',
+    'sb_publishable_13MoNCdmVfsUGB1zVy02sw_-vfOFr9n'
+  );
   const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
   function openAuth(tab) { $id('auth-overlay').classList.add('open'); switchTab(tab); }
@@ -914,16 +913,24 @@
     $id('form-login').style.display = tab === 'login' ? 'block' : 'none';
     $id('form-registro').style.display = tab === 'registro' ? 'block' : 'none';
   }
+  function traducirError(msg) {
+    const m = (msg || '').toLowerCase();
+    if (m.includes('already registered') || m.includes('already been registered')) return 'Ese correo ya tiene cuenta. Inicia sesión.';
+    if (m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
+    if (m.includes('password should be at least')) return 'La contraseña debe tener al menos 6 caracteres.';
+    if (m.includes('rate limit') || m.includes('too many')) return 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
+    if (m.includes('invalid email') || m.includes('unable to validate email')) return 'Ese correo no parece válido.';
+    return 'Algo salió mal. Inténtalo de nuevo.';
+  }
   async function doRegister(ev) {
     ev.preventDefault();
     const nombre = $id('re-nombre').value.trim(), email = $id('re-email').value.trim().toLowerCase(), pass = $id('re-pass').value;
     if (!nombre) return showErr('Cuéntanos tu nombre.');
     if (!emailOk(email)) return showErr('Ese correo no parece válido.');
     if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
-    const users = getUsers();
-    if (users.some(u => u.email === email)) return showErr('Ese correo ya tiene cuenta. Inicia sesión.');
-    users.push({ nombre, email, hash: await sha256(pass) });
-    saveUsers(users);
+    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { nombre } } });
+    if (error) return showErr(traducirError(error.message));
+    if (data && data.user && data.user.identities && data.user.identities.length === 0) return showErr('Ese correo ya tiene cuenta. Inicia sesión.');
     switchTab('login');
     $id('li-email').value = email;
     showOk('¡Cuenta creada, ' + nombre + '! Ahora inicia sesión.');
@@ -931,22 +938,23 @@
   async function doLogin(ev) {
     ev.preventDefault();
     const email = $id('li-email').value.trim().toLowerCase(), pass = $id('li-pass').value;
-    const u = getUsers().find(u => u.email === email);
-    if (!u || u.hash !== await sha256(pass)) return showErr('Correo o contraseña incorrectos.');
-    localStorage.setItem('lectua_session', JSON.stringify({ nombre: u.nombre, email: u.email }));
+    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+    if (error) return showErr(traducirError(error.message));
     closeAuth();
-    renderSession();
   }
-  function logout() { localStorage.removeItem('lectua_session'); renderSession(); }
-  function renderSession() {
-    let s = null; try { s = JSON.parse(localStorage.getItem('lectua_session')); } catch {}
+  async function logout() { await sb.auth.signOut(); }
+  let sesionActual = null;
+  function pintarSesion() {
+    const s = sesionActual;
+    const nombre = s ? (s.user.user_metadata && s.user.user_metadata.nombre ? s.user.user_metadata.nombre : s.user.email) : null;
     $id('nav-auth').innerHTML = s
-      ? '<span class="nav-user">Hola, ' + esc(s.nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
+      ? '<span class="nav-user">Hola, ' + esc(nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
       : '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
     const gate = $id('eventos-gate'), agenda = $id('eventos-contenido');
     if (gate && agenda) { gate.style.display = s ? 'none' : 'block'; agenda.style.display = s ? 'block' : 'none'; }
   }
-  renderSession();
+  sb.auth.getSession().then(({ data }) => { sesionActual = data.session; pintarSesion(); });
+  sb.auth.onAuthStateChange((_ev, session) => { sesionActual = session; pintarSesion(); });
 </script>
 </body>
 </html>
