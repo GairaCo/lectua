@@ -8,7 +8,8 @@
 ### I. Simplicidad primero
 El sitio es HTML5, CSS y JavaScript vanilla en un solo archivo (`index.html`). No se
 introducen frameworks, bundlers ni dependencias de build mientras la landing no lo exija.
-La única dependencia externa permitida son las fuentes de Google Fonts.
+Dependencias externas permitidas: las fuentes de Google Fonts y la librería
+supabase-js (CDN) para autenticación — enmienda v1.1.0.
 
 ### II. Contenido en español
 Todo el contenido visible al usuario, la documentación y los mensajes de commit se
@@ -39,4 +40,6 @@ automáticamente a Vercel como sitio estático. No hay pasos manuales de build.
 Esta constitución prevalece sobre cualquier otra práctica. Cualquier cambio a estos
 principios debe documentarse aquí con fecha y justificación.
 
-**Versión**: 1.0.0 · **Ratificada**: 2026-07-11
+**Versión**: 1.1.0 · **Ratificada**: 2026-07-11 · **Enmendada**: 2026-07-12 —
+se permite supabase-js como segunda dependencia externa para que los registros de
+miembros queden en una base de datos real (fase Supabase).
