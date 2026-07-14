@@ -1,4 +1,4 @@
-# 🐙 LECTUA — Lee. Conecta. Viaja. Transfórmate.
+# LECTUA - Lee. Conecta. Comparte. Actúa.
 
 Landing page de **LECTUA**, comunidad de lectura que conecta lectores, cafés de
 especialidad (*Leederos*) y librerías independientes a través del **Pasaporte LECTUA**,
