@@ -1,952 +1,1024 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lectua Lee y Actúa</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lectua Lee y Actúa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --verde:        #1e3a2f;
-      --verde-medio:  #2d5a45;
-      --verde-claro:  #4a8c6e;
-      --crema:        #f5f0e8;
-      --crema-oscura: #e8dfc8;
-      --dorado:       #c8a855;
-      --cafe:         #6b4c3b;
-      --texto:        #1a1a1a;
-      --blanco:       #ffffff;
-    }
+:root {
+--verde: #1e3a2f;
+--verde-medio: #2d5a45;
+--verde-claro: #4a8c6e;
+--crema: #f5f0e8;
+--crema-oscura: #e8dfc8;
+--dorado: #c8a855;
+--cafe: #6b4c3b;
+--texto: #1a1a1a;
+--blanco: #ffffff;
+}
 
-    html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Lato', sans-serif;
-      background: var(--crema);
-      color: var(--texto);
-      overflow-x: hidden;
-    }
+body {
+font-family: 'Lato', sans-serif;
+background: var(--crema);
+color: var(--texto);
+overflow-x: hidden;
+}
 
-    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--verde);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 6vw;
-      height: 64px;
-      box-shadow: 0 2px 16px rgba(0,0,0,.3);
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Playfair Display', serif;
-      color: var(--crema);
-      font-size: 1.4rem; font-weight: 700; letter-spacing: .04em;
-      text-decoration: none;
-    }
-    .nav-logo svg { width: 34px; height: 34px; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a {
-      color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em;
-      text-transform: uppercase; text-decoration: none; transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--dorado); }
-    .nav-cta {
-      background: var(--dorado); color: var(--verde);
-      padding: 8px 20px; border-radius: 24px;
-      font-weight: 700; font-size: .85rem; text-decoration: none;
-      transition: background .2s, transform .15s;
-    }
-    .nav-cta:hover { background: #e0bc6a; transform: translateY(-1px); }
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+background: var(--verde);
+display: flex; align-items: center; justify-content: space-between;
+padding: 0 6vw;
+height: 64px;
+box-shadow: 0 2px 16px rgba(0,0,0,.3);
+}
+.nav-logo {
+display: flex; align-items: center; gap: 10px;
+font-family: 'Playfair Display', serif;
+color: var(--crema);
+font-size: 1.4rem; font-weight: 700; letter-spacing: .04em;
+text-decoration: none;
+}
+.nav-logo svg { width: 34px; height: 34px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em;
+text-transform: uppercase; text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--dorado); }
+.nav-cta {
+background: var(--dorado); color: var(--verde);
+padding: 8px 20px; border-radius: 24px;
+font-weight: 700; font-size: .85rem; text-decoration: none;
+transition: background .2s, transform .15s;
+}
+.nav-cta:hover { background: #e0bc6a; transform: translateY(-1px); }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      background: var(--verde);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-      padding: 100px 6vw 60px;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 70% 40%, #2d5a4540 0%, transparent 60%),
-                  radial-gradient(ellipse at 10% 80%, #4a8c6e20 0%, transparent 50%);
-      pointer-events: none;
-    }
-    .hero-content {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center; max-width: 1100px; margin: auto;
-    }
-    .hero-text .eyebrow {
-      display: inline-block;
-      background: var(--dorado); color: var(--verde);
-      font-size: .75rem; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
-      margin-bottom: 20px;
-    }
-    .hero-text h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      color: var(--crema); line-height: 1.1;
-      margin-bottom: 20px;
-    }
-    .hero-text h1 em { color: var(--dorado); font-style: italic; }
-    .hero-text p {
-      color: var(--crema-oscura); font-size: 1.05rem; line-height: 1.75;
-      max-width: 480px; margin-bottom: 36px;
-    }
-    .hero-tagline {
-      font-family: 'Playfair Display', serif;
-      font-style: italic; font-size: .95rem;
-      color: var(--dorado); margin-bottom: 10px;
-    }
-    .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--dorado); color: var(--verde);
-      padding: 14px 30px; border-radius: 30px;
-      font-weight: 700; font-size: .95rem; text-decoration: none;
-      transition: background .2s, transform .15s;
-      display: inline-block;
-    }
-    .btn-primary:hover { background: #e0bc6a; transform: translateY(-2px); }
-    .btn-secondary {
-      border: 2px solid var(--crema-oscura); color: var(--crema);
-      padding: 13px 28px; border-radius: 30px;
-      font-size: .95rem; text-decoration: none;
-      transition: border-color .2s, color .2s;
-      display: inline-block;
-    }
-    .btn-secondary:hover { border-color: var(--dorado); color: var(--dorado); }
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+background: var(--verde);
+display: flex; align-items: center; justify-content: center;
+position: relative; overflow: hidden;
+padding: 100px 6vw 60px;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background: radial-gradient(ellipse at 70% 40%, #2d5a4540 0%, transparent 60%),
+radial-gradient(ellipse at 10% 80%, #4a8c6e20 0%, transparent 50%);
+pointer-events: none;
+}
+.hero-content {
+position: relative; z-index: 1;
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 60px; align-items: center; max-width: 1100px; margin: auto;
+}
+.hero-text .eyebrow {
+display: inline-block;
+background: var(--dorado); color: var(--verde);
+font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
+margin-bottom: 20px;
+}
+.hero-text h1 {
+font-size: clamp(2.4rem, 5vw, 3.8rem);
+color: var(--crema); line-height: 1.1;
+margin-bottom: 20px;
+}
+.hero-text h1 em { color: var(--dorado); font-style: italic; }
+.hero-text p {
+color: var(--crema-oscura); font-size: 1.05rem; line-height: 1.75;
+max-width: 480px; margin-bottom: 36px;
+}
+.hero-tagline {
+font-family: 'Playfair Display', serif;
+font-style: italic; font-size: .95rem;
+color: var(--dorado); margin-bottom: 10px;
+}
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary {
+background: var(--dorado); color: var(--verde);
+padding: 14px 30px; border-radius: 30px;
+font-weight: 700; font-size: .95rem; text-decoration: none;
+transition: background .2s, transform .15s;
+display: inline-block;
+}
+.btn-primary:hover { background: #e0bc6a; transform: translateY(-2px); }
+.btn-secondary {
+border: 2px solid var(--crema-oscura); color: var(--crema);
+padding: 13px 28px; border-radius: 30px;
+font-size: .95rem; text-decoration: none;
+transition: border-color .2s, color .2s;
+display: inline-block;
+}
+.btn-secondary:hover { border-color: var(--dorado); color: var(--dorado); }
 
-    /* Passport illustration */
-    .hero-visual {
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-    }
-    .passport-card {
-      background: linear-gradient(145deg, #1a3326, #0f2219);
-      border: 2px solid var(--dorado);
-      border-radius: 12px;
-      width: 280px; height: 380px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 16px;
-      box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(200,168,85,.2);
-      position: relative;
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-12px) rotate(-1deg); }
-    }
-    .passport-card .stamp-ring {
-      position: absolute; top: -20px; right: -20px;
-      width: 80px; height: 80px;
-      border: 3px solid var(--dorado);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--verde);
-      font-size: .5rem; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--dorado);
-      text-align: center; line-height: 1.3;
-    }
-    .passport-card .p-title {
-      font-family: 'Playfair Display', serif;
-      color: var(--dorado); font-size: 1rem; letter-spacing: .15em;
-      text-transform: uppercase; text-align: center;
-    }
-    .passport-card .p-name {
-      font-family: 'Playfair Display', serif;
-      color: var(--crema); font-size: 1.5rem; font-weight: 700;
-    }
-    .passport-card .p-sub {
-      color: var(--crema-oscura); font-size: .75rem; letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    .passport-card .p-divider {
-      width: 60%; height: 1px; background: var(--dorado); opacity: .4;
-    }
-    .passport-card .stamps {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 8px; padding: 0 20px;
-    }
-    .stamp {
-      width: 44px; height: 44px;
-      border: 2px solid var(--dorado);
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; opacity: .6;
-    }
-    .stamp.filled { opacity: 1; background: rgba(200,168,85,.1); }
+/* Passport illustration */
+.hero-visual {
+display: flex; align-items: center; justify-content: center;
+position: relative;
+}
+.passport-card {
+background: linear-gradient(145deg, #1a3326, #0f2219);
+border: 2px solid var(--dorado);
+border-radius: 12px;
+width: 280px; height: 380px;
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+gap: 16px;
+box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(200,168,85,.2);
+position: relative;
+animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+0%, 100% { transform: translateY(0) rotate(-2deg); }
+50% { transform: translateY(-12px) rotate(-1deg); }
+}
+.passport-card .stamp-ring {
+position: absolute; top: -20px; right: -20px;
+width: 80px; height: 80px;
+border: 3px solid var(--dorado);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+background: var(--verde);
+font-size: .5rem; font-weight: 700; letter-spacing: .1em;
+text-transform: uppercase; color: var(--dorado);
+text-align: center; line-height: 1.3;
+}
+.passport-card .p-title {
+font-family: 'Playfair Display', serif;
+color: var(--dorado); font-size: 1rem; letter-spacing: .15em;
+text-transform: uppercase; text-align: center;
+}
+.passport-card .p-name {
+font-family: 'Playfair Display', serif;
+color: var(--crema); font-size: 1.5rem; font-weight: 700;
+}
+.passport-card .p-sub {
+color: var(--crema-oscura); font-size: .75rem; letter-spacing: .08em;
+text-transform: uppercase;
+}
+.passport-card .p-divider {
+width: 60%; height: 1px; background: var(--dorado); opacity: .4;
+}
+.passport-card .stamps {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 8px; padding: 0 20px;
+}
+.stamp {
+width: 44px; height: 44px;
+border: 2px solid var(--dorado);
+border-radius: 4px;
+display: flex; align-items: center; justify-content: center;
+font-size: 1.2rem; opacity: .6;
+}
+.stamp.filled { opacity: 1; background: rgba(200,168,85,.1); }
 
-    /* floating elements */
-    .hero-visual .deco {
-      position: absolute;
-      font-size: 2.5rem; opacity: .15;
-      animation: floatDeco 5s ease-in-out infinite;
-    }
-    .deco-1 { top: 10%; left: -10%; animation-delay: 0s; }
-    .deco-2 { bottom: 10%; right: -8%; animation-delay: 1.5s; font-size: 2rem; }
-    .deco-3 { top: 60%; left: -15%; animation-delay: .8s; font-size: 1.8rem; }
-    @keyframes floatDeco {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+/* floating elements */
+.hero-visual .deco {
+position: absolute;
+font-size: 2.5rem; opacity: .15;
+animation: floatDeco 5s ease-in-out infinite;
+}
+.deco-1 { top: 10%; left: -10%; animation-delay: 0s; }
+.deco-2 { bottom: 10%; right: -8%; animation-delay: 1.5s; font-size: 2rem; }
+.deco-3 { top: 60%; left: -15%; animation-delay: .8s; font-size: 1.8rem; }
+@keyframes floatDeco {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-8px); }
+}
 
-    /* ── SECTION BASE ── */
-    section { padding: 90px 6vw; }
-    .section-label {
-      font-size: .75rem; font-weight: 700; letter-spacing: .15em;
-      text-transform: uppercase; color: var(--verde-claro);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      color: var(--verde); line-height: 1.2;
-      margin-bottom: 16px;
-    }
-    .section-title em { color: var(--dorado); font-style: italic; }
-    .section-sub {
-      font-size: 1rem; color: #555; line-height: 1.75;
-      max-width: 580px;
-    }
-    .container { max-width: 1100px; margin: auto; }
+/* ── SECTION BASE ── */
+section { padding: 90px 6vw; }
+.section-label {
+font-size: .75rem; font-weight: 700; letter-spacing: .15em;
+text-transform: uppercase; color: var(--verde-claro);
+margin-bottom: 12px;
+}
+.section-title {
+font-size: clamp(2rem, 4vw, 3rem);
+color: var(--verde); line-height: 1.2;
+margin-bottom: 16px;
+}
+.section-title em { color: var(--dorado); font-style: italic; }
+.section-sub {
+font-size: 1rem; color: #555; line-height: 1.75;
+max-width: 580px;
+}
+.container { max-width: 1100px; margin: auto; }
 
-    /* ── QUÉ ES ── */
-    .que-es { background: var(--blanco); }
-    .que-es-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center; margin-top: 50px;
-    }
-    .cards-2x2 {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .feature-card {
-      background: var(--crema); border-radius: 12px;
-      padding: 24px 20px;
-      border-left: 4px solid var(--verde-claro);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
-    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .feature-card h4 {
-      font-size: .95rem; font-weight: 700;
-      color: var(--verde); margin-bottom: 6px;
-    }
-    .feature-card p { font-size: .85rem; color: #666; line-height: 1.6; }
-    .quote-block {
-      background: var(--verde);
-      border-radius: 16px; padding: 40px;
-      color: var(--crema);
-    }
-    .quote-block blockquote {
-      font-family: 'Playfair Display', serif;
-      font-style: italic; font-size: 1.4rem;
-      line-height: 1.6; margin-bottom: 20px;
-    }
-    .quote-block cite {
-      font-size: .8rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--dorado);
-    }
+/* ── QUÉ ES ── */
+.que-es { background: var(--blanco); }
+.que-es-grid {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 60px; align-items: center; margin-top: 50px;
+}
+.cards-2x2 {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 16px;
+}
+.feature-card {
+background: var(--crema); border-radius: 12px;
+padding: 24px 20px;
+border-left: 4px solid var(--verde-claro);
+transition: transform .2s, box-shadow .2s;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+.feature-card h4 {
+font-size: .95rem; font-weight: 700;
+color: var(--verde); margin-bottom: 6px;
+}
+.feature-card p { font-size: .85rem; color: #666; line-height: 1.6; }
+.quote-block {
+background: var(--verde);
+border-radius: 16px; padding: 40px;
+color: var(--crema);
+}
+.quote-block blockquote {
+font-family: 'Playfair Display', serif;
+font-style: italic; font-size: 1.4rem;
+line-height: 1.6; margin-bottom: 20px;
+}
+.quote-block cite {
+font-size: .8rem; letter-spacing: .1em;
+text-transform: uppercase; color: var(--dorado);
+}
 
-    /* ── CÓMO FUNCIONA ── */
-    .como-funciona { background: var(--crema); }
-    .steps {
-      display: flex; flex-direction: column; gap: 0;
-      margin-top: 50px; max-width: 700px; margin-left: auto; margin-right: auto;
-    }
-    .step {
-      display: flex; gap: 24px; align-items: flex-start;
-      padding: 28px 0; position: relative;
-    }
-    .step:not(:last-child)::after {
-      content: '';
-      position: absolute; left: 27px; top: 70px;
-      width: 2px; height: calc(100% - 40px);
-      background: linear-gradient(to bottom, var(--verde-claro), transparent);
-    }
-    .step-num {
-      width: 56px; height: 56px; flex-shrink: 0;
-      background: var(--verde); color: var(--dorado);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
-      box-shadow: 0 4px 12px rgba(30,58,47,.3);
-      z-index: 1;
-    }
-    .step-body h4 {
-      font-size: 1.1rem; color: var(--verde); margin-bottom: 6px; padding-top: 12px;
-    }
-    .step-body p { font-size: .9rem; color: #555; line-height: 1.65; }
-    .step-body .pill {
-      display: inline-block;
-      background: var(--verde-claro); color: var(--blanco);
-      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
-      padding: 3px 10px; border-radius: 12px; margin-top: 8px;
-    }
+/* ── CÓMO FUNCIONA ── */
+.como-funciona { background: var(--crema); }
+.steps {
+display: flex; flex-direction: column; gap: 0;
+margin-top: 50px; max-width: 700px; margin-left: auto; margin-right: auto;
+}
+.step {
+display: flex; gap: 24px; align-items: flex-start;
+padding: 28px 0; position: relative;
+}
+.step:not(:last-child)::after {
+content: '';
+position: absolute; left: 27px; top: 70px;
+width: 2px; height: calc(100% - 40px);
+background: linear-gradient(to bottom, var(--verde-claro), transparent);
+}
+.step-num {
+width: 56px; height: 56px; flex-shrink: 0;
+background: var(--verde); color: var(--dorado);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+box-shadow: 0 4px 12px rgba(30,58,47,.3);
+z-index: 1;
+}
+.step-body h4 {
+font-size: 1.1rem; color: var(--verde); margin-bottom: 6px; padding-top: 12px;
+}
+.step-body p { font-size: .9rem; color: #555; line-height: 1.65; }
+.step-body .pill {
+display: inline-block;
+background: var(--verde-claro); color: var(--blanco);
+font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+padding: 3px 10px; border-radius: 12px; margin-top: 8px;
+}
 
-    /* ── 4 CICLOS ── */
-    .ciclos { background: var(--verde); }
-    .ciclos .section-title { color: var(--crema); }
-    .ciclos .section-sub { color: var(--crema-oscura); }
-    .ciclos-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 20px; margin-top: 50px;
-    }
-    .ciclo-card {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(200,168,85,.25);
-      border-radius: 14px; padding: 30px 22px;
-      text-align: center;
-      transition: background .2s, transform .2s;
-      cursor: default;
-    }
-    .ciclo-card:hover {
-      background: rgba(255,255,255,.12);
-      transform: translateY(-4px);
-    }
-    .ciclo-card .ciclo-icon { font-size: 2.8rem; margin-bottom: 14px; }
-    .ciclo-card h3 {
-      font-size: 1.05rem; color: var(--dorado);
-      text-transform: uppercase; letter-spacing: .1em;
-      margin-bottom: 12px;
-    }
-    .ciclo-card p { font-size: .85rem; color: var(--crema-oscura); line-height: 1.65; }
+/* ── 4 CICLOS ── */
+.ciclos { background: var(--verde); }
+.ciclos .section-title { color: var(--crema); }
+.ciclos .section-sub { color: var(--crema-oscura); }
+.ciclos-grid {
+display: grid; grid-template-columns: repeat(4, 1fr);
+gap: 20px; margin-top: 50px;
+}
+.ciclo-card {
+background: rgba(255,255,255,.07);
+border: 1px solid rgba(200,168,85,.25);
+border-radius: 14px; padding: 30px 22px;
+text-align: center;
+transition: background .2s, transform .2s;
+cursor: default;
+}
+.ciclo-card:hover {
+background: rgba(255,255,255,.12);
+transform: translateY(-4px);
+}
+.ciclo-card .ciclo-icon { font-size: 2.8rem; margin-bottom: 14px; }
+.ciclo-card h3 {
+font-size: 1.05rem; color: var(--dorado);
+text-transform: uppercase; letter-spacing: .1em;
+margin-bottom: 12px;
+}
+.ciclo-card p { font-size: .85rem; color: var(--crema-oscura); line-height: 1.65; }
 
-    /* ── BENEFICIOS ── */
-    .beneficios { background: var(--blanco); }
-    .beneficios-tabs {
-      display: flex; gap: 8px; margin: 40px 0 30px;
-      flex-wrap: wrap;
-    }
-    .tab-btn {
-      padding: 9px 22px; border-radius: 24px;
-      border: 2px solid var(--crema-oscura);
-      background: transparent; cursor: pointer;
-      font-family: 'Lato', sans-serif;
-      font-size: .85rem; font-weight: 700; letter-spacing: .04em;
-      color: #777; transition: all .2s;
-    }
-    .tab-btn.active {
-      background: var(--verde); color: var(--crema);
-      border-color: var(--verde);
-    }
-    .tab-content { display: none; }
-    .tab-content.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .benefit-item {
-      display: flex; gap: 12px; align-items: flex-start;
-      padding: 18px; background: var(--crema); border-radius: 10px;
-    }
-    .benefit-item .b-icon {
-      width: 36px; height: 36px; flex-shrink: 0;
-      background: var(--verde); color: var(--dorado);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .benefit-item p { font-size: .88rem; color: #555; line-height: 1.6; }
+/* ── BENEFICIOS ── */
+.beneficios { background: var(--blanco); }
+.beneficios-tabs {
+display: flex; gap: 8px; margin: 40px 0 30px;
+flex-wrap: wrap;
+}
+.tab-btn {
+padding: 9px 22px; border-radius: 24px;
+border: 2px solid var(--crema-oscura);
+background: transparent; cursor: pointer;
+font-family: 'Lato', sans-serif;
+font-size: .85rem; font-weight: 700; letter-spacing: .04em;
+color: #777; transition: all .2s;
+}
+.tab-btn.active {
+background: var(--verde); color: var(--crema);
+border-color: var(--verde);
+}
+.tab-content { display: none; }
+.tab-content.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.benefit-item {
+display: flex; gap: 12px; align-items: flex-start;
+padding: 18px; background: var(--crema); border-radius: 10px;
+}
+.benefit-item .b-icon {
+width: 36px; height: 36px; flex-shrink: 0;
+background: var(--verde); color: var(--dorado);
+border-radius: 8px; display: flex; align-items: center; justify-content: center;
+font-size: 1.1rem;
+}
+.benefit-item p { font-size: .88rem; color: #555; line-height: 1.6; }
 
-    /* ── CTA LECTUAMIGOS ── */
-    .pasaporte-cta {
-      background: linear-gradient(135deg, var(--verde) 0%, #0f2219 100%);
-      position: relative; overflow: hidden;
-    }
-    .pasaporte-cta::before {
-      content: '📖';
-      position: absolute; right: -40px; bottom: -40px;
-      font-size: 18rem; opacity: .04; line-height: 1;
-    }
-    .cta-inner {
-      max-width: 700px; margin: auto; text-align: center;
-      position: relative; z-index: 1;
-    }
-    .cta-inner .section-label { color: var(--dorado); }
-    .cta-inner h2 {
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
-      color: var(--crema); margin-bottom: 20px;
-    }
-    .cta-inner h2 em { color: var(--dorado); }
-    .cta-inner p {
-      color: var(--crema-oscura); font-size: 1rem; line-height: 1.75;
-      margin-bottom: 36px;
-    }
-    .includes-list {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; text-align: left; margin-bottom: 40px;
-    }
-    .includes-list li {
-      display: flex; gap: 10px; align-items: center;
-      color: var(--crema); font-size: .88rem; list-style: none;
-    }
-    .includes-list li::before {
-      content: '✓'; color: var(--dorado); font-weight: 700; font-size: 1rem;
-    }
-    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+/* ── CTA LECTUAMIGOS ── */
+.pasaporte-cta {
+background: linear-gradient(135deg, var(--verde) 0%, #0f2219 100%);
+position: relative; overflow: hidden;
+}
+.pasaporte-cta::before {
+content: '📖';
+position: absolute; right: -40px; bottom: -40px;
+font-size: 18rem; opacity: .04; line-height: 1;
+}
+.cta-inner {
+max-width: 700px; margin: auto; text-align: center;
+position: relative; z-index: 1;
+}
+.cta-inner .section-label { color: var(--dorado); }
+.cta-inner h2 {
+font-size: clamp(2rem, 4.5vw, 3.2rem);
+color: var(--crema); margin-bottom: 20px;
+}
+.cta-inner h2 em { color: var(--dorado); }
+.cta-inner p {
+color: var(--crema-oscura); font-size: 1rem; line-height: 1.75;
+margin-bottom: 36px;
+}
+.includes-list {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 10px; text-align: left; margin-bottom: 40px;
+}
+.includes-list li {
+display: flex; gap: 10px; align-items: center;
+color: var(--crema); font-size: .88rem; list-style: none;
+}
+.includes-list li::before {
+content: '✓'; color: var(--dorado); font-weight: 700; font-size: 1rem;
+}
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-    /* ── POR QUÉ ── */
-    .por-que { background: var(--crema-oscura); text-align: center; }
-    .por-que .section-title { max-width: 700px; margin: 0 auto 16px; }
-    .por-que .section-sub { margin: 0 auto 50px; text-align: center; }
-    .manifesto {
-      max-width: 650px; margin: auto;
-      background: var(--verde); border-radius: 16px; padding: 48px;
-      color: var(--crema);
-    }
-    .manifesto p {
-      font-family: 'Playfair Display', serif;
-      font-style: italic; font-size: 1.3rem; line-height: 1.8;
-      margin-bottom: 24px;
-    }
-    .manifesto span {
-      font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dorado);
-    }
+/* ── POR QUÉ ── */
+.por-que { background: var(--crema-oscura); text-align: center; }
+.por-que .section-title { max-width: 700px; margin: 0 auto 16px; }
+.por-que .section-sub { margin: 0 auto 50px; text-align: center; }
+.manifesto {
+max-width: 650px; margin: auto;
+background: var(--verde); border-radius: 16px; padding: 48px;
+color: var(--crema);
+}
+.manifesto p {
+font-family: 'Playfair Display', serif;
+font-style: italic; font-size: 1.3rem; line-height: 1.8;
+margin-bottom: 24px;
+}
+.manifesto span {
+font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+color: var(--dorado);
+}
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--verde); padding: 40px 6vw;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      color: var(--crema); font-size: 1.3rem; font-weight: 700;
-    }
-    .footer-tagline { font-size: .8rem; color: var(--crema-oscura); margin-top: 4px; }
-    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
-    .footer-links a {
-      color: var(--crema-oscura); font-size: .82rem;
-      text-decoration: none; transition: color .2s;
-    }
-    .footer-links a:hover { color: var(--dorado); }
-    .footer-copy { color: var(--crema-oscura); font-size: .75rem; }
+/* ── FOOTER ── */
+footer {
+background: var(--verde); padding: 40px 6vw;
+display: flex; align-items: center; justify-content: space-between;
+flex-wrap: wrap; gap: 16px;
+}
+.footer-logo {
+font-family: 'Playfair Display', serif;
+color: var(--crema); font-size: 1.3rem; font-weight: 700;
+}
+.footer-tagline { font-size: .8rem; color: var(--crema-oscura); margin-top: 4px; }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a {
+color: var(--crema-oscura); font-size: .82rem;
+text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: var(--dorado); }
+.footer-copy { color: var(--crema-oscura); font-size: .75rem; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .hero-content { grid-template-columns: 1fr; text-align: center; }
-      .hero-visual { display: none; }
-      .hero-text p { margin: 0 auto 36px; }
-      .hero-buttons { justify-content: center; }
-      .que-es-grid { grid-template-columns: 1fr; }
-      .ciclos-grid { grid-template-columns: 1fr 1fr; }
-      .tab-content.active { grid-template-columns: 1fr; }
-      .includes-list { grid-template-columns: 1fr; }
-      nav .nav-links { display: none; }
-    }
-    @media (max-width: 600px) {
-      .ciclos-grid { grid-template-columns: 1fr; }
-      .cards-2x2 { grid-template-columns: 1fr; }
-    }
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+.hero-content { grid-template-columns: 1fr; text-align: center; }
+.hero-visual { display: none; }
+.hero-text p { margin: 0 auto 36px; }
+.hero-buttons { justify-content: center; }
+.que-es-grid { grid-template-columns: 1fr; }
+.ciclos-grid { grid-template-columns: 1fr 1fr; }
+.tab-content.active { grid-template-columns: 1fr; }
+.includes-list { grid-template-columns: 1fr; }
+nav .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+.ciclos-grid { grid-template-columns: 1fr; }
+.cards-2x2 { grid-template-columns: 1fr; }
+}
 
+/* ── EVENTOS (gate + catálogo) ── */
+.eventos { background: var(--crema); }
+.gate-card { background: var(--verde); color: var(--crema); border-radius: 16px; padding: 48px 40px; text-align: center; max-width: 560px; margin: 40px auto 0; }
+.gate-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--crema); }
+.gate-card p { color: var(--crema-oscura); font-size: .95rem; margin-bottom: 24px; line-height: 1.6; }
+.gate-card .btn-primary { border: none; cursor: pointer; font-family: 'Lato', sans-serif; }
+.ev-cat { font-size: 1.05rem; color: var(--verde); margin: 44px 0 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ev-badge { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 14px; font-family: 'Lato', sans-serif; }
+.ev-free { background: var(--verde-claro); color: #fff; }
+.ev-prem { background: var(--dorado); color: var(--verde); }
+.eventos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.evento-card { background: #fff; border: 1px solid var(--crema-oscura); border-radius: 14px; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; transition: transform .2s, box-shadow .2s; }
+.evento-card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+.evento-card.prem { border: 2px solid var(--dorado); background: linear-gradient(180deg, #fff, #fdf8ec); }
+.ev-fecha { font-size: .75rem; font-weight: 700; letter-spacing: .08em; color: var(--verde-claro); }
+.evento-card.prem .ev-fecha { color: #a8842f; }
+.evento-card h4 { color: var(--verde); font-size: 1.05rem; }
+.evento-card p { font-size: .85rem; color: #555; line-height: 1.6; flex: 1; }
+.ev-meta { font-size: .78rem; color: #8a8070; }
+.ev-precio { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--verde); }
+.ev-btn { display: block; text-align: center; padding: 11px; border-radius: 22px; background: var(--verde); color: var(--crema); text-decoration: none; font-size: .85rem; font-weight: 700; transition: opacity .2s; }
+.ev-btn:hover { opacity: .9; }
+.evento-card.prem .ev-btn { background: var(--dorado); color: var(--verde); }
+.ev-nota { font-size: .78rem; color: #999; text-align: center; margin-top: 28px; }
+@media (max-width: 900px) { .eventos-grid { grid-template-columns: 1fr; } }
 
-    /* ── EVENTOS (gate + catálogo) ── */
-    .eventos { background: var(--crema); }
-    .gate-card { background: var(--verde); color: var(--crema); border-radius: 16px; padding: 48px 40px; text-align: center; max-width: 560px; margin: 40px auto 0; }
-    .gate-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--crema); }
-    .gate-card p { color: var(--crema-oscura); font-size: .95rem; margin-bottom: 24px; line-height: 1.6; }
-    .gate-card .btn-primary { border: none; cursor: pointer; font-family: 'Lato', sans-serif; }
-    .ev-cat { font-size: 1.05rem; color: var(--verde); margin: 44px 0 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .ev-badge { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 14px; font-family: 'Lato', sans-serif; }
-    .ev-free { background: var(--verde-claro); color: #fff; }
-    .ev-prem { background: var(--dorado); color: var(--verde); }
-    .eventos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .evento-card { background: #fff; border: 1px solid var(--crema-oscura); border-radius: 14px; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; transition: transform .2s, box-shadow .2s; }
-    .evento-card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.08); }
-    .evento-card.prem { border: 2px solid var(--dorado); background: linear-gradient(180deg, #fff, #fdf8ec); }
-    .ev-fecha { font-size: .75rem; font-weight: 700; letter-spacing: .08em; color: var(--verde-claro); }
-    .evento-card.prem .ev-fecha { color: #a8842f; }
-    .evento-card h4 { color: var(--verde); font-size: 1.05rem; }
-    .evento-card p { font-size: .85rem; color: #555; line-height: 1.6; flex: 1; }
-    .ev-meta { font-size: .78rem; color: #8a8070; }
-    .ev-precio { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--verde); }
-    .ev-btn { display: block; text-align: center; padding: 11px; border-radius: 22px; background: var(--verde); color: var(--crema); text-decoration: none; font-size: .85rem; font-weight: 700; transition: opacity .2s; }
-    .ev-btn:hover { opacity: .9; }
-    .evento-card.prem .ev-btn { background: var(--dorado); color: var(--verde); }
-    .ev-nota { font-size: .78rem; color: #999; text-align: center; margin-top: 28px; }
-    @media (max-width: 900px) { .eventos-grid { grid-template-columns: 1fr; } }
+/* ── LOGIN (v1 demo) ── */
+.nav-entrar { color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-right: 18px; transition: color .2s; cursor: pointer; }
+.nav-entrar:hover { color: var(--dorado); }
+.nav-user { color: var(--dorado); font-size: .85rem; font-weight: 700; margin-right: 14px; }
+.nav-right { display: flex; align-items: center; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(15,34,25,.78); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--crema); border-radius: 16px; max-width: 400px; width: 100%; padding: 36px 32px 28px; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
+.modal h3 { color: var(--verde); font-size: 1.5rem; margin-bottom: 4px; }
+.modal .m-sub { font-size: .85rem; color: #666; margin-bottom: 18px; }
+.modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; }
+.m-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.m-tab { flex: 1; padding: 8px; border-radius: 20px; border: 2px solid var(--crema-oscura); background: transparent; font-family: 'Lato', sans-serif; font-size: .82rem; font-weight: 700; color: #777; cursor: pointer; transition: all .2s; }
+.m-tab.active { background: var(--verde); color: var(--crema); border-color: var(--verde); }
+.m-field { margin-bottom: 12px; }
+.m-field label { display: block; font-size: .75rem; font-weight: 700; color: var(--verde); margin-bottom: 4px; letter-spacing: .05em; text-transform: uppercase; }
+.m-field input { width: 100%; padding: 11px 12px; border: 1px solid var(--crema-oscura); border-radius: 8px; background: var(--blanco); font-family: 'Lato', sans-serif; font-size: .95rem; }
+.m-msg-error { display: none; background: #fdecea; color: #b3261e; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
+.m-msg-ok { display: none; background: #e8f5e9; color: #1e7d32; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
+.m-submit { width: 100%; padding: 13px; background: var(--dorado); color: var(--verde); border: none; border-radius: 26px; font-family: 'Lato', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; margin-top: 4px; transition: background .2s; }
+.m-submit:hover { background: #e0bc6a; }
+.m-demo { font-size: .72rem; color: #999; text-align: center; margin-top: 14px; line-height: 1.5; }
 
-    /* ── LOGIN (v1 demo) ── */
-    .nav-entrar { color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-right: 18px; transition: color .2s; cursor: pointer; }
-    .nav-entrar:hover { color: var(--dorado); }
-    .nav-user { color: var(--dorado); font-size: .85rem; font-weight: 700; margin-right: 14px; }
-    .nav-right { display: flex; align-items: center; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,34,25,.78); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--crema); border-radius: 16px; max-width: 400px; width: 100%; padding: 36px 32px 28px; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
-    .modal h3 { color: var(--verde); font-size: 1.5rem; margin-bottom: 4px; }
-    .modal .m-sub { font-size: .85rem; color: #666; margin-bottom: 18px; }
-    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #999; cursor: pointer; line-height: 1; }
-    .m-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
-    .m-tab { flex: 1; padding: 8px; border-radius: 20px; border: 2px solid var(--crema-oscura); background: transparent; font-family: 'Lato', sans-serif; font-size: .82rem; font-weight: 700; color: #777; cursor: pointer; transition: all .2s; }
-    .m-tab.active { background: var(--verde); color: var(--crema); border-color: var(--verde); }
-    .m-field { margin-bottom: 12px; }
-    .m-field label { display: block; font-size: .75rem; font-weight: 700; color: var(--verde); margin-bottom: 4px; letter-spacing: .05em; text-transform: uppercase; }
-    .m-field input { width: 100%; padding: 11px 12px; border: 1px solid var(--crema-oscura); border-radius: 8px; background: var(--blanco); font-family: 'Lato', sans-serif; font-size: .95rem; }
-    .m-msg-error { display: none; background: #fdecea; color: #b3261e; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
-    .m-msg-ok { display: none; background: #e8f5e9; color: #1e7d32; font-size: .82rem; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
-    .m-submit { width: 100%; padding: 13px; background: var(--dorado); color: var(--verde); border: none; border-radius: 26px; font-family: 'Lato', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; margin-top: 4px; transition: background .2s; }
-    .m-submit:hover { background: #e0bc6a; }
-    .m-demo { font-size: .72rem; color: #999; text-align: center; margin-top: 14px; line-height: 1.5; }
-  </style>
+/* ── EMPRESAS (B2B) ── */
+.empresas { background: var(--crema-oscura); }
+.empresas .section-label { color: var(--cafe); }
+.empresas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 40px; }
+.eje-list { display: flex; flex-direction: column; gap: 14px; margin: 28px 0 32px; }
+.eje-item { background: var(--blanco); border-radius: 10px; padding: 16px 18px; border-left: 4px solid var(--dorado); }
+.eje-item strong { color: var(--verde); font-size: .92rem; }
+.eje-item span { display: block; font-size: .85rem; color: #666; margin-top: 4px; line-height: 1.55; }
+.empresas-valor { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+.valor-card { background: var(--verde); color: var(--crema); border-radius: 12px; padding: 20px; }
+.valor-card h4 { font-size: .95rem; color: var(--dorado); margin-bottom: 6px; }
+.valor-card p { font-size: .82rem; color: var(--crema-oscura); line-height: 1.55; }
+.portafolio-card { background: var(--verde); color: var(--crema); border-radius: 16px; padding: 40px 36px; text-align: center; position: sticky; top: 100px; }
+.portafolio-card .pf-icon { font-size: 2.6rem; margin-bottom: 14px; }
+.portafolio-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--crema); }
+.portafolio-card p { font-size: .9rem; color: var(--crema-oscura); line-height: 1.6; margin-bottom: 22px; }
+.portafolio-card .btn-primary { border: none; cursor: pointer; font-family: 'Lato', sans-serif; width: 100%; }
+.pf-nota { font-size: .75rem; color: #b9c9bd; margin-top: 14px; }
+@media (max-width: 900px) {
+  .empresas-grid { grid-template-columns: 1fr; }
+  .empresas-valor { grid-template-columns: 1fr; }
+  .portafolio-card { position: static; }
+}
+</style>
 </head>
 <body>
 
 <!-- ── NAV ── -->
 <nav>
-  <a href="#" class="nav-logo">
-    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M30 17 C25 12, 15 12, 11 15 V45 C15 42, 25 42, 30 47 C35 42, 45 42, 49 45 V15 C45 12, 35 12, 30 17 Z" fill="#2d5a45" stroke="#c8a855" stroke-width="1.6"/>
-      <line x1="30" y1="17" x2="30" y2="47" stroke="#f5f0e8" stroke-width="1.3"/>
-      <path d="M16 22 C20 20.5, 24 21, 27 23 M16 28 C20 26.5, 24 27, 27 29 M16 34 C20 32.5, 24 33, 27 35" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M33 23 C36 21, 40 20.5, 44 22 M33 29 C36 27, 40 26.5, 44 28 M33 35 C36 33, 40 32.5, 44 34" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
-    </svg>
-    LECTUA
-  </a>
-  <ul class="nav-links">
-    <li><a href="#que-es">¿Qué es?</a></li>
-    <li><a href="#lo-que-hacemos">Lo que hacemos</a></li>
-    <li><a href="#ciclos">Los 4 ciclos</a></li>
-    <li><a href="#beneficios">Beneficios</a></li>
-    <li><a href="#eventos">Eventos</a></li>
-  </ul>
-  <div class="nav-right">
-    <span id="nav-auth"><a class="nav-entrar" onclick="openAuth('login')">Entrar</a></span>
-    <a href="#lectuamigos" class="nav-cta">Hazte Lectuamigo</a>
-  </div>
+<a href="#" class="nav-logo">
+<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M30 17 C25 12, 15 12, 11 15 V45 C15 42, 25 42, 30 47 C35 42, 45 42, 49 45 V15 C45 12, 35 12, 30 17 Z" fill="#2d5a45" stroke="#c8a855" stroke-width="1.6"/>
+<line x1="30" y1="17" x2="30" y2="47" stroke="#f5f0e8" stroke-width="1.3"/>
+<path d="M16 22 C20 20.5, 24 21, 27 23 M16 28 C20 26.5, 24 27, 27 29 M16 34 C20 32.5, 24 33, 27 35" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M33 23 C36 21, 40 20.5, 44 22 M33 29 C36 27, 40 26.5, 44 28 M33 35 C36 33, 40 32.5, 44 34" stroke="#c8a855" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+LECTUA
+</a>
+<ul class="nav-links">
+<li><a href="#que-es">¿Qué es?</a></li>
+<li><a href="#lo-que-hacemos">Lo que hacemos</a></li>
+<li><a href="#ciclos">Los 4 ciclos</a></li>
+<li><a href="#beneficios">Beneficios</a></li>
+<li><a href="#eventos">Eventos</a></li>
+<li><a href="#empresas">Empresas</a></li>
+</ul>
+<div class="nav-right">
+<span id="nav-auth"><a class="nav-entrar" onclick="openAuth('login')">Entrar</a></span>
+<a href="#lectuamigos" class="nav-cta">Hazte Lectuamigo</a>
+</div>
 </nav>
 
 <!-- ── HERO ── -->
 <section class="hero" id="inicio">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-text">
-      <span class="eyebrow">Lectua · Lee y Actúa</span>
-      <h1>Historias que se leen,<br/><em>vidas que se encuentran.</em></h1>
-      <p>El puente entre tu libro favorito y tu próxima gran conversación. Únete a nuestros eventos literarios, sal de la rutina y haz networking auténtico con una comunidad vibrante.</p>
-      <p class="hero-tagline">Lee. Conecta. Comparte. Actúa.</p>
-      <div class="hero-buttons">
-        <a href="#lectuamigos" class="btn-primary">Hazte Lectuamigo</a>
-        <a href="#lo-que-hacemos" class="btn-secondary">lo que hacemos</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <span class="deco deco-1">📚</span>
-      <span class="deco deco-2">☕</span>
-      <span class="deco deco-3">✒️</span>
-      <div class="passport-card">
-        <div class="stamp-ring">Lee<br/>y<br/>Actúa</div>
-        <div class="p-title">Membresía</div>
-        <div class="p-name">LECTUAMIGOS</div>
-        <div class="p-sub">Tu llave a la comunidad</div>
-        <div class="p-divider"></div>
-        <div class="stamps">
-          <div class="stamp filled">🎭</div>
-          <div class="stamp filled">🗺️</div>
-          <div class="stamp filled">✍️</div>
-          <div class="stamp filled">🎧</div>
-          <div class="stamp">📖</div>
-          <div class="stamp">🤝</div>
-        </div>
-        <div class="p-sub" style="font-size:.65rem; color: var(--dorado);">Cada experiencia es una historia</div>
-      </div>
-    </div>
-  </div>
+<div class="hero-bg"></div>
+<div class="hero-content">
+<div class="hero-text">
+<span class="eyebrow">Lectua · Lee y Actúa</span>
+<h1>Historias que se leen,<br/><em>vidas que se encuentran.</em></h1>
+<p>El puente entre tu libro favorito y tu próxima gran conversación. Únete a nuestros eventos literarios, sal de la rutina y haz networking auténtico con una comunidad vibrante.</p>
+<p class="hero-tagline">Lee. Conecta. Comparte. Actúa.</p>
+<div class="hero-buttons">
+<a href="#lectuamigos" class="btn-primary">Hazte Lectuamigo</a>
+<a href="#lo-que-hacemos" class="btn-secondary">lo que hacemos</a>
+</div>
+</div>
+<div class="hero-visual">
+<span class="deco deco-1">📚</span>
+<span class="deco deco-2">☕</span>
+<span class="deco deco-3">✒️</span>
+<div class="passport-card">
+<div class="stamp-ring">Lee<br/>y<br/>Actúa</div>
+<div class="p-title">Membresía</div>
+<div class="p-name">LECTUAMIGOS</div>
+<div class="p-sub">Tu llave a la comunidad</div>
+<div class="p-divider"></div>
+<div class="stamps">
+<div class="stamp filled">🎭</div>
+<div class="stamp filled">🗺️</div>
+<div class="stamp filled">✍️</div>
+<div class="stamp filled">🎧</div>
+<div class="stamp">📖</div>
+<div class="stamp">🤝</div>
+</div>
+<div class="p-sub" style="font-size:.65rem; color: var(--dorado);">Cada experiencia es una historia</div>
+</div>
+</div>
+</div>
 </section>
 
 <!-- ── QUÉ ES ── -->
 <section class="que-es" id="que-es">
-  <div class="container">
-    <p class="section-label">¿Qué es Lectua?</p>
-    <h2 class="section-title">La lectura deja de ser<br/><em>una experiencia solitaria</em></h2>
-    <div class="que-es-grid">
-      <div class="cards-2x2">
-        <div class="feature-card">
-          <div class="icon">👥</div>
-          <h4>Comunidad de lectores</h4>
-          <p>Personas que comparten su pasión por los libros en espacios reales y digitales.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">💬</div>
-          <h4>Del lector al conversador</h4>
-          <p> Conversa y escucha con un libro como puente para dar el paso.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">🎭</div>
-          <h4>Eventos en vivo</h4>
-          <p>Lecturas en voz alta y experiencias que sacan la literatura a la calle.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">🤝</div>
-          <h4>Alianzas y beneficios</h4>
-          <p>Descuentos en libros, eventos culturales y experiencias literarias exclusivas.</p>
-        </div>
-      </div>
-      <div class="quote-block">
-        <blockquote>¿Te apasiona leer pero te sientes solo en tu experiencia?</blockquote>
-        <p style="font-size:.9rem; color: var(--crema-oscura); line-height:1.7; margin-bottom: 20px;">
-          Lectua resuelve dos problemas: la soledad del lector, que rara vez vive su lectura en comunidad y el la necesidad de encuentros reales, que muchos desean y pocos encuentran cómo lograr.
-        </p>
-        <cite>— Lectua · Lee y Actúa</cite>
-      </div>
-    </div>
-  </div>
+<div class="container">
+<p class="section-label">¿Qué es Lectua?</p>
+<h2 class="section-title">La lectura deja de ser<br/><em>una experiencia solitaria</em></h2>
+<div class="que-es-grid">
+<div class="cards-2x2">
+<div class="feature-card">
+<div class="icon">👥</div>
+<h4>Comunidad de lectores</h4>
+<p>Personas que comparten su pasión por los libros en espacios reales y digitales.</p>
+</div>
+<div class="feature-card">
+<div class="icon">💬</div>
+<h4>Del lector al conversador</h4>
+<p> Conversa y escucha con un libro como puente para dar el paso.</p>
+</div>
+<div class="feature-card">
+<div class="icon">🎭</div>
+<h4>Eventos en vivo</h4>
+<p>Lecturas en voz alta y experiencias que sacan la literatura a la calle.</p>
+</div>
+<div class="feature-card">
+<div class="icon">🤝</div>
+<h4>Alianzas y beneficios</h4>
+<p>Descuentos en libros, eventos culturales y experiencias literarias exclusivas.</p>
+</div>
+</div>
+<div class="quote-block">
+<blockquote>¿Te apasiona leer pero te sientes solo en tu experiencia?</blockquote>
+<p style="font-size:.9rem; color: var(--crema-oscura); line-height:1.7; margin-bottom: 20px;">
+Lectua resuelve dos problemas: la soledad del lector, que rara vez vive su lectura en comunidad y el la necesidad de encuentros reales, que muchos desean y pocos encuentran cómo lograr.
+</p>
+<cite>— Lectua · Lee y Actúa</cite>
+</div>
+</div>
+</div>
 </section>
 
 <!-- ── CONOCENOS ── -->
 <section class="como-funciona" id="lo-que-hacemos">
-  <div class="container">
-    <p class="section-label">Lo que hacemos</p>
-    <h2 class="section-title">Las 5 formas de <br/><em> encontrarse con Lectua</em></h2>
-    <p class="section-sub" style="margin-bottom: 0;">Cinco maneras de vivir la lectura en comunidad, dentro y fuera de las páginas.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h4>Lectuantes</h4>
-          <p>Eventos de lectura en vivo en restaurantes, cafés y lugares emblemáticos de la ciudad, donde la literatura cobra vida a través de la voz y la interacción.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h4>Lectours</h4>
-          <p>Aventuras literarias que recorren parques, librerías y espacios inspiradores — también en viajes largos — para leer, escribir y reconectar con el placer de la palabra.</p>
-          <span class="pill">Proximamente</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h4>Lectuamigos</h4>
-          <p>La membresía del club: eventos gratuitos de networking, talleres y clubes de lectura, y descuentos en actividades. Con iniciativas especiales para asociaciones de padres de familia de colegios y para empresas.</p>
-          <span class="pill">Familias · Colegios · Empresas</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h4>Lectualianzas</h4>
-          <p>Club de beneficios para la compra de libros, eventos culturales y experiencias literarias exclusivas.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-body">
-          <h4>Lectube </h4>
-          <p>La plataforma digital donde la comunidad disfruta de la lectura en voz alta: fragmentos de libros narrados por voces queridas como amigos, lectores y autores reconocidos, con sus interpretaciones y recomendaciones.</p>
-          <span class="pill"> Proximamente </span>
-        </div>
-      </div>
-    </div>
-    <p style="text-align: center; font-size: .9rem; color: #777; margin-top: 36px;">
-      Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</strong>: noticias de nuevos lugares, nuevos eventos, nuevos libros y nuevas experiencias.
-    </p>
-  </div>
+<div class="container">
+<p class="section-label">Lo que hacemos</p>
+<h2 class="section-title">Las 5 formas de <br/><em> encontrarse con Lectua</em></h2>
+<p class="section-sub" style="margin-bottom: 0;">Cinco maneras de vivir la lectura en comunidad, dentro y fuera de las páginas.</p>
+<div class="steps">
+<div class="step">
+<div class="step-num">1</div>
+<div class="step-body">
+<h4>Lectuantes</h4>
+<p>Eventos de lectura en vivo en restaurantes, cafés y lugares emblemáticos de la ciudad, donde la literatura cobra vida a través de la voz y la interacción.</p>
+</div>
+</div>
+<div class="step">
+<div class="step-num">2</div>
+<div class="step-body">
+<h4>Lectours</h4>
+<p>Aventuras literarias que recorren parques, librerías y espacios inspiradores — también en viajes largos — para leer, escribir y reconectar con el placer de la palabra.</p>
+<span class="pill">Proximamente</span>
+</div>
+</div>
+<div class="step">
+<div class="step-num">3</div>
+<div class="step-body">
+<h4>Lectuamigos</h4>
+<p>La membresía del club: eventos gratuitos de networking, talleres y clubes de lectura, y descuentos en actividades. Con iniciativas especiales para asociaciones de padres de familia de colegios y para empresas.</p>
+<span class="pill">Familias · Colegios · Empresas</span>
+</div>
+</div>
+<div class="step">
+<div class="step-num">4</div>
+<div class="step-body">
+<h4>Lectualianzas</h4>
+<p>Club de beneficios para la compra de libros, eventos culturales y experiencias literarias exclusivas.</p>
+</div>
+</div>
+<div class="step">
+<div class="step-num">5</div>
+<div class="step-body">
+<h4>Lectube </h4>
+<p>La plataforma digital donde la comunidad disfruta de la lectura en voz alta: fragmentos de libros narrados por voces queridas como amigos, lectores y autores reconocidos, con sus interpretaciones y recomendaciones.</p>
+<span class="pill"> Proximamente </span>
+</div>
+</div>
+</div>
+<p style="text-align: center; font-size: .9rem; color: #777; margin-top: 36px;">
+Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</strong>: noticias de nuevos lugares, nuevos eventos, nuevos libros y nuevas experiencias.
+</p>
+</div>
 </section>
 
 <!-- ── 4 CICLOS ── -->
 <section class="ciclos" id="ciclos">
-  <div class="container">
-    <p class="section-label" style="color: var(--dorado);">Metodología</p>
-    <h2 class="section-title">Los 4 ciclos de lectura</h2>
-    <p class="section-sub">Nuestra metodología usa las cuatro tramas esenciales de toda gran historia, según Jorge Luis Borges, para explorar la vida.</p>
-    <div class="ciclos-grid">
-      <div class="ciclo-card">
-        <div class="ciclo-icon">🏰</div>
-        <h3>El Asedio</h3>
-        <p>Fortaleza ante los desafíos. Aprendemos a resistir y construir nuestro refugio interior.</p>
-      </div>
-      <div class="ciclo-card">
-        <div class="ciclo-icon">⛵</div>
-        <h3>El Viaje</h3>
-        <p>Toda transformación es un viaje. Confianza, constancia y coraje para seguir avanzando.</p>
-      </div>
-      <div class="ciclo-card">
-        <div class="ciclo-icon">🧭</div>
-        <h3>La Búsqueda</h3>
-        <p>Preguntas, propósito y sentido. Lo que buscamos afuera, también nos busca adentro.</p>
-      </div>
-      <div class="ciclo-card">
-        <div class="ciclo-icon">🔥</div>
-        <h3>El Sacrificio</h3>
-        <p>Soltar lo que ya no somos para dar lugar a nuevas formas de ser y vivir.</p>
-      </div>
-    </div>
-    <p style="text-align: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--dorado); font-size: 1.2rem; margin-top: 40px;">
-      "Todas las historias. Todas nuestras vidas."
-    </p>
-  </div>
+<div class="container">
+<p class="section-label" style="color: var(--dorado);">Metodología</p>
+<h2 class="section-title">Los 4 ciclos de lectura</h2>
+<p class="section-sub">Nuestra metodología usa las cuatro tramas esenciales de toda gran historia, según Jorge Luis Borges, para explorar la vida.</p>
+<div class="ciclos-grid">
+<div class="ciclo-card">
+<div class="ciclo-icon">🏰</div>
+<h3>El Asedio</h3>
+<p>Fortaleza ante los desafíos. Aprendemos a resistir y construir nuestro refugio interior.</p>
+</div>
+<div class="ciclo-card">
+<div class="ciclo-icon">⛵</div>
+<h3>El Viaje</h3>
+<p>Toda transformación es un viaje. Confianza, constancia y coraje para seguir avanzando.</p>
+</div>
+<div class="ciclo-card">
+<div class="ciclo-icon">🧭</div>
+<h3>La Búsqueda</h3>
+<p>Preguntas, propósito y sentido. Lo que buscamos afuera, también nos busca adentro.</p>
+</div>
+<div class="ciclo-card">
+<div class="ciclo-icon">🔥</div>
+<h3>El Sacrificio</h3>
+<p>Soltar lo que ya no somos para dar lugar a nuevas formas de ser y vivir.</p>
+</div>
+</div>
+<p style="text-align: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--dorado); font-size: 1.2rem; margin-top: 40px;">
+"Todas las historias. Todas nuestras vidas."
+</p>
+</div>
 </section>
 
 <!-- ── BENEFICIOS ── -->
 <section class="beneficios" id="beneficios">
-  <div class="container">
-    <p class="section-label">Para todos</p>
-    <h2 class="section-title">Beneficios que<br/><em>conectan ecosistemas</em></h2>
-    <p class="section-sub">Lectua crea valor para cada parte de la comunidad: lectores y aliados.</p>
-    <div class="beneficios-tabs">
-      <button class="tab-btn active" onclick="showTab('lectores')">📖 Para lectores</button>
-      <button class="tab-btn" onclick="showTab('aliados')">🤝 Para aliados</button>
-    </div>
-    <div class="tab-content active" id="tab-lectores">
-      <div class="benefit-item"><div class="b-icon">👥</div><p>Comunidad real: tu lectura deja de ser una experiencia solitaria.</p></div>
-      <div class="benefit-item"><div class="b-icon">🎭</div><p>Lectuantes: lecturas en vivo en cafés, restaurantes y lugares emblemáticos.</p></div>
-      <div class="benefit-item"><div class="b-icon">🗺️</div><p>Lectours: rutas literarias por tu ciudad y viajes para leer y escribir.</p></div>
-      <div class="benefit-item"><div class="b-icon">🏷️</div><p>Lectualianzas: descuentos en libros, eventos culturales y experiencias.</p></div>
-      <div class="benefit-item"><div class="b-icon">🎧</div><p>Lectube: fragmentos de libros narrados por lectores y autores reconocidos.</p></div>
-      <div class="benefit-item"><div class="b-icon">📅</div><p>Lectualidad: entérate primero de nuevos lugares, eventos y libros.</p></div>
-    </div>
-    <div class="tab-content" id="tab-aliados">
-      <div class="benefit-item"><div class="b-icon">🏫</div><p>Colegios: iniciativas de lectura en familia con asociaciones de padres.</p></div>
-      <div class="benefit-item"><div class="b-icon">🏢</div><p>Empresas: fomento de la lectura en el ámbito laboral con talleres y clubes.</p></div>
-      <div class="benefit-item"><div class="b-icon">☕</div><p>Cafés y restaurantes: sé sede de Lectuantes y atrae público lector.</p></div>
-      <div class="benefit-item"><div class="b-icon">📚</div><p>Librerías y editoriales: una demanda dispersa se convierte en comunidad.</p></div>
-      <div class="benefit-item"><div class="b-icon">📣</div><p>Promoción conjunta en la Lectualidad de nuestras redes.</p></div>
-      <div class="benefit-item"><div class="b-icon">🌐</div><p>Parte de un ecosistema cultural que crece con cada alianza.</p></div>
-    </div>
-  </div>
+<div class="container">
+<p class="section-label">Para todos</p>
+<h2 class="section-title">Beneficios que<br/><em>conectan ecosistemas</em></h2>
+<p class="section-sub">Lectua crea valor para cada parte de la comunidad: lectores y aliados.</p>
+<div class="beneficios-tabs">
+<button class="tab-btn active" onclick="showTab('lectores')">📖 Para lectores</button>
+<button class="tab-btn" onclick="showTab('aliados')">🤝 Para aliados</button>
+</div>
+<div class="tab-content active" id="tab-lectores">
+<div class="benefit-item"><div class="b-icon">👥</div><p>Comunidad real: tu lectura deja de ser una experiencia solitaria.</p></div>
+<div class="benefit-item"><div class="b-icon">🎭</div><p>Lectuantes: lecturas en vivo en cafés, restaurantes y lugares emblemáticos.</p></div>
+<div class="benefit-item"><div class="b-icon">🗺️</div><p>Lectours: rutas literarias por tu ciudad y viajes para leer y escribir.</p></div>
+<div class="benefit-item"><div class="b-icon">🏷️</div><p>Lectualianzas: descuentos en libros, eventos culturales y experiencias.</p></div>
+<div class="benefit-item"><div class="b-icon">🎧</div><p>Lectube: fragmentos de libros narrados por lectores y autores reconocidos.</p></div>
+<div class="benefit-item"><div class="b-icon">📅</div><p>Lectualidad: entérate primero de nuevos lugares, eventos y libros.</p></div>
+</div>
+<div class="tab-content" id="tab-aliados">
+<div class="benefit-item"><div class="b-icon">🏫</div><p>Colegios: iniciativas de lectura en familia con asociaciones de padres.</p></div>
+<div class="benefit-item"><div class="b-icon">🏢</div><p>Empresas: fomento de la lectura en el ámbito laboral con talleres y clubes.</p></div>
+<div class="benefit-item"><div class="b-icon">☕</div><p>Cafés y restaurantes: sé sede de Lectuantes y atrae público lector.</p></div>
+<div class="benefit-item"><div class="b-icon">📚</div><p>Librerías y editoriales: una demanda dispersa se convierte en comunidad.</p></div>
+<div class="benefit-item"><div class="b-icon">📣</div><p>Promoción conjunta en la Lectualidad de nuestras redes.</p></div>
+<div class="benefit-item"><div class="b-icon">🌐</div><p>Parte de un ecosistema cultural que crece con cada alianza.</p></div>
+</div>
+</div>
 </section>
 
 <!-- ── EVENTOS ── -->
 <section class="eventos" id="eventos">
-  <div class="container">
-    <p class="section-label">Agenda</p>
-    <h2 class="section-title">Eventos para<br/><em>leer y actuar</em></h2>
-    <p class="section-sub">Vive la experiencia gratis con los eventos freemium y da el salto a las experiencias premium de cupo limitado.</p>
-    <div id="eventos-gate">
-      <div class="gate-card">
-        <h3>La agenda es solo para miembros</h3>
-        <p>Regístrate gratis en Lectua para desbloquear los eventos freemium y premium de la comunidad.</p>
-        <button class="btn-primary" onclick="openAuth('registro')">Registrarme gratis →</button>
-      </div>
-    </div>
-    <div id="eventos-contenido" style="display:none">
-      <h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Eventos gratuitos — vive la experiencia</h3>
-      <div class="eventos-grid">
-        <div class="evento-card">
-          <div class="ev-fecha">SÁB · 18 JUL 2026 · 4:00 P.M.</div>
-          <h4>Lectuante de estreno</h4>
-          <p>Lectura en voz alta + café en un aliado de Chapinero. La literatura cobra vida a través de la voz: trae tu libro favorito o solo ven a escuchar.</p>
-          <div class="ev-meta">📍 Café aliado · Bogotá · Cupo 30</div>
-          <a class="ev-btn" href="https://luma.com/1mhwjh5d" target="_blank">Reservar gratis →</a>
-        </div>
-        <div class="evento-card">
-          <div class="ev-fecha">SÁB · 25 JUL 2026 · 4:00 P.M.</div>
-          <h4>Taller relámpago: Tu primera página</h4>
-          <p>45 minutos para dar el paso del lector al escritor. Sales con tu primera página escrita y ganas de seguir.</p>
-          <div class="ev-meta">📍 Librería aliada · Bogotá · Cupo 20</div>
-          <a class="ev-btn" href="https://luma.com/r8ol8lid" target="_blank">Reservar gratis →</a>
-        </div>
-        <div class="evento-card">
-          <div class="ev-fecha">SÁB · 1 AGO 2026 · 7:00 P.M.</div>
-          <h4>Micrófono abierto Lectube</h4>
-          <p>Noche de lecturas en voz alta: 5 minutos por lector para compartir el fragmento que te transformó. Las mejores voces se graban para Lectube.</p>
-          <div class="ev-meta">📍 Por confirmar · Bogotá · Entrada libre</div>
-          <a class="ev-btn" href="https://luma.com/3guzkfmz" target="_blank">Reservar gratis →</a>
-        </div>
-      </div>
-      <h3 class="ev-cat"><span class="ev-badge ev-prem">Premium</span> Experiencias de cupo limitado</h3>
-      <div class="eventos-grid">
-        <div class="evento-card prem">
-          <div class="ev-fecha">SÁB · 8 AGO 2026 · 7:30 P.M.</div>
-          <h4>Cena literaria con autor invitado</h4>
-          <p>Tres tiempos, una mesa larga y una conversación íntima con un autor invitado. La experiencia insignia de Lectua.</p>
-          <div class="ev-meta">📍 Restaurante aliado · Bogotá · Cupo 20</div>
-          <div class="ev-precio">COP $150.000</div>
-          <a class="ev-btn" href="https://luma.com/by2upwf2" target="_blank">Comprar mi cupo →</a>
-        </div>
-        <div class="evento-card prem">
-          <div class="ev-fecha">INICIA SÁB · 15 AGO 2026 · 4 SESIONES</div>
-          <h4>Ciclo completo: El Viaje</h4>
-          <p>Un mes de club guiado con la metodología de los 4 ciclos: lecturas, conversación y cuaderno de viaje incluido.</p>
-          <div class="ev-meta">📍 Café aliado · Bogotá · Cupo 15</div>
-          <div class="ev-precio">COP $180.000</div>
-          <a class="ev-btn" href="https://luma.com/s6cp2p7a" target="_blank">Comprar mi cupo →</a>
-        </div>
-        <div class="evento-card prem">
-          <div class="ev-fecha">SÁB · 22 AGO 2026 · DÍA COMPLETO</div>
-          <h4>Lectour: ruta literaria de día completo</h4>
-          <p>Parques, librerías y rincones inspiradores con paradas de lectura y escritura. Incluye transporte, almuerzo y un libro sorpresa.</p>
-          <div class="ev-meta">📍 Salida desde Bogotá · Cupo 18</div>
-          <div class="ev-precio">COP $220.000</div>
-          <a class="ev-btn" href="https://luma.com/k8io9h1p" target="_blank">Comprar mi cupo →</a>
-        </div>
-      </div>
-      <p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. La ubicación secreta se revela a los inscritos. Precios orientativos de lanzamiento.</p>
-    </div>
-  </div>
+<div class="container">
+<p class="section-label">Agenda</p>
+<h2 class="section-title">Eventos para<br/><em>leer y actuar</em></h2>
+<p class="section-sub">Vive la experiencia gratis con los eventos freemium y da el salto a las experiencias premium de cupo limitado.</p>
+<div id="eventos-gate">
+<div class="gate-card">
+<h3>La agenda es solo para miembros</h3>
+<p>Regístrate gratis en Lectua para desbloquear los eventos freemium y premium de la comunidad.</p>
+<button class="btn-primary" onclick="openAuth('registro')">Registrarme gratis →</button>
+</div>
+</div>
+<div id="eventos-contenido" style="display:none">
+<h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Eventos gratuitos — vive la experiencia</h3>
+<div class="eventos-grid">
+<div class="evento-card">
+<div class="ev-fecha">SÁB · 18 JUL 2026 · 4:00 P.M.</div>
+<h4>Lectuante de estreno</h4>
+<p>Lectura en voz alta + café en un aliado de Chapinero. La literatura cobra vida a través de la voz: trae tu libro favorito o solo ven a escuchar.</p>
+<div class="ev-meta">📍 Café aliado · Bogotá · Cupo 30</div>
+<a class="ev-btn" href="https://luma.com/1mhwjh5d" target="_blank">Reservar gratis →</a>
+</div>
+<div class="evento-card">
+<div class="ev-fecha">SÁB · 25 JUL 2026 · 4:00 P.M.</div>
+<h4>Taller relámpago: Tu primera página</h4>
+<p>45 minutos para dar el paso del lector al escritor. Sales con tu primera página escrita y ganas de seguir.</p>
+<div class="ev-meta">📍 Librería aliada · Bogotá · Cupo 20</div>
+<a class="ev-btn" href="https://luma.com/r8ol8lid" target="_blank">Reservar gratis →</a>
+</div>
+<div class="evento-card">
+<div class="ev-fecha">SÁB · 1 AGO 2026 · 7:00 P.M.</div>
+<h4>Micrófono abierto Lectube</h4>
+<p>Noche de lecturas en voz alta: 5 minutos por lector para compartir el fragmento que te transformó. Las mejores voces se graban para Lectube.</p>
+<div class="ev-meta">📍 Por confirmar · Bogotá · Entrada libre</div>
+<a class="ev-btn" href="https://luma.com/3guzkfmz" target="_blank">Reservar gratis →</a>
+</div>
+</div>
+<h3 class="ev-cat"><span class="ev-badge ev-prem">Premium</span> Experiencias de cupo limitado</h3>
+<div class="eventos-grid">
+<div class="evento-card prem">
+<div class="ev-fecha">SÁB · 8 AGO 2026 · 7:30 P.M.</div>
+<h4>Cena literaria con autor invitado</h4>
+<p>Tres tiempos, una mesa larga y una conversación íntima con un autor invitado. La experiencia insignia de Lectua.</p>
+<div class="ev-meta">📍 Restaurante aliado · Bogotá · Cupo 20</div>
+<div class="ev-precio">COP $150.000</div>
+<a class="ev-btn" href="https://luma.com/by2upwf2" target="_blank">Comprar mi cupo →</a>
+</div>
+<div class="evento-card prem">
+<div class="ev-fecha">INICIA SÁB · 15 AGO 2026 · 4 SESIONES</div>
+<h4>Ciclo completo: El Viaje</h4>
+<p>Un mes de club guiado con la metodología de los 4 ciclos: lecturas, conversación y cuaderno de viaje incluido.</p>
+<div class="ev-meta">📍 Café aliado · Bogotá · Cupo 15</div>
+<div class="ev-precio">COP $180.000</div>
+<a class="ev-btn" href="https://luma.com/s6cp2p7a" target="_blank">Comprar mi cupo →</a>
+</div>
+<div class="evento-card prem">
+<div class="ev-fecha">SÁB · 22 AGO 2026 · DÍA COMPLETO</div>
+<h4>Lectour: ruta literaria de día completo</h4>
+<p>Parques, librerías y rincones inspiradores con paradas de lectura y escritura. Incluye transporte, almuerzo y un libro sorpresa.</p>
+<div class="ev-meta">📍 Salida desde Bogotá · Cupo 18</div>
+<div class="ev-precio">COP $220.000</div>
+<a class="ev-btn" href="https://luma.com/k8io9h1p" target="_blank">Comprar mi cupo →</a>
+</div>
+</div>
+<p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. La ubicación secreta se revela a los inscritos. Precios orientativos de lanzamiento.</p>
+</div>
+</div>
+</section>
+
+<!-- ── EMPRESAS (B2B) ── -->
+<section class="empresas" id="empresas">
+<div class="container">
+<p class="section-label">Para empresas</p>
+<h2 class="section-title">No solo leemos historias.<br/><em>Somos las historias que nos contamos.</em></h2>
+<p class="section-sub">Transformación humana y organizacional a través del poder de las historias. Llevamos la metodología Lectua al entorno laboral: burnout, desconexión de equipos y riesgo psicosocial, transformados en cultura, bienestar y cumplimiento normativo.</p>
+<div class="empresas-grid">
+<div>
+<div class="eje-list">
+<div class="eje-item"><strong>El reto</strong><span>Burnout, desconexión de equipos y altos índices de riesgo psicosocial. Organizaciones sitiadas por la presión de resultados y la falta de comunicación.</span></div>
+<div class="eje-item"><strong>El eje: El Asedio</strong><span>La necesidad de resistir, protegerse y operar eficientemente bajo presión constante — uno de los 4 ciclos del Mapa de Lectua.</span></div>
+<div class="eje-item"><strong>La promesa</strong><span>Cumplimiento de normativas de bienestar psicosocial, mejora del clima laboral y una humanización real de las relaciones de trabajo.</span></div>
+</div>
+<p style="font-size:.9rem; color:#555; line-height:1.7; margin-bottom: 18px;">
+Nuestra herramienta insignia para empresas es la <strong style="color:var(--verde);">Catación de Historias</strong>: el ritual de pausar, leer y conversar, inspirado en el ritual del café de especialidad. La Pausa, la Cata y la Conversación destraban conflictos, alinean narrativas de equipo y recuperan la conexión humana.
+</p>
+<div class="empresas-valor">
+<div class="valor-card"><h4>Mitigación de riesgos</h4><p>Cumplimiento de normativas de riesgo psicosocial: reducción de burnout y estrés.</p></div>
+<div class="valor-card"><h4>Coordinación de acciones</h4><p>Equipos alineados que se comunican desde la empatía, no desde el conflicto.</p></div>
+<div class="valor-card"><h4>Ambientes resilientes</h4><p>Culturas corporativas humanizadas que retienen talento y fomentan el bienestar.</p></div>
+<div class="valor-card"><h4>Innovación metodológica</h4><p>Intervenciones de alto impacto emocional con herramientas que los equipos genuinamente disfrutan.</p></div>
+</div>
+</div>
+<div id="empresas-gate">
+<div class="portafolio-card">
+<div class="pf-icon">📖</div>
+<h3>Descarga el portafolio completo</h3>
+<p>Regístrate gratis en Lectua para descargar el portafolio de servicios para empresas: metodología, soluciones y el equipo detrás de Lectua.</p>
+<button class="btn-primary" onclick="openAuth('registro')">Registrarme para descargar →</button>
+<p class="pf-nota">¿Ya tienes cuenta? <a href="#" onclick="openAuth('login'); return false;" style="color:var(--dorado);">Inicia sesión</a></p>
+</div>
+</div>
+<div id="empresas-contenido" style="display:none">
+<div class="portafolio-card">
+<div class="pf-icon">📖</div>
+<h3>Portafolio de servicios</h3>
+<p>Metodología, soluciones para el entorno laboral, educativo y de salud, y el equipo detrás de Lectua — listo para compartir con tu organización.</p>
+<a class="btn-primary" href="assets/Portafolio%20de%20servicios.pdf" download="Portafolio-de-servicios-Lectua.pdf" style="display:block;">Descargar PDF →</a>
+<p class="pf-nota">También puedes <a href="mailto:hola@lectua.com" style="color:var(--dorado);">escribirnos</a> para agendar una Catación de Historias o sesión de diagnóstico.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 <!-- ── CTA LECTUAMIGOS ── -->
 <section class="pasaporte-cta" id="lectuamigos">
-  <div class="cta-inner">
-    <p class="section-label">Tu próximo paso</p>
-    <h2>Hazte <em>Lectuamigo</em></h2>
-    <p>La membresía que convierte tu pasión por los libros en comunidad, eventos y beneficios reales. Sal de la rutina y vive la lectura de forma integral.</p>
-    <ul class="includes-list">
-      <li>Eventos gratuitos de networking</li>
-      <li>Eventos Premium</li>
-      <li>Descuentos en actividades y experiencias</li>
-      <li>Beneficios Lectualianzas en libros y cultura</li>
-      <li>Acceso a Lectuantes y Lectours</li>
-      <li>Tu voz en Lectube</li>
-    </ul>
-    <div class="cta-buttons">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfZS5R1zVtuCBs4vWK1Sc40bmmJAm91s56i2jS4BLDO9GOC7w/viewform?usp=header" target="_blank" class="btn-primary">Quiero ser Lectuamigo →</a>
-      <a href="https://instagram.com/somoslectua" target="_blank" class="btn-secondary">@somoslectua</a>
-    </div>
-  </div>
+<div class="cta-inner">
+<p class="section-label">Tu próximo paso</p>
+<h2>Hazte <em>Lectuamigo</em></h2>
+<p>La membresía que convierte tu pasión por los libros en comunidad, eventos y beneficios reales. Sal de la rutina y vive la lectura de forma integral.</p>
+<ul class="includes-list">
+<li>Eventos gratuitos de networking</li>
+<li>Eventos Premium</li>
+<li>Descuentos en actividades y experiencias</li>
+<li>Beneficios Lectualianzas en libros y cultura</li>
+<li>Acceso a Lectuantes y Lectours</li>
+<li>Tu voz en Lectube</li>
+</ul>
+<div class="cta-buttons">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfZS5R1zVtuCBs4vWK1Sc40bmmJAm91s56i2jS4BLDO9GOC7w/viewform?usp=header" target="_blank" class="btn-primary">Quiero ser Lectuamigo →</a>
+<a href="https://instagram.com/somoslectua" target="_blank" class="btn-secondary">@somoslectua</a>
+</div>
+</div>
 </section>
 
 <!-- ── POR QUÉ EXISTIMOS ── -->
 <section class="por-que">
-  <div class="container">
-    <p class="section-label">Por qué existimos</p>
-    <h2 class="section-title">Porque leer<br/><em>lo cambia todo</em></h2>
-    <p class="section-sub">No estás solo en tu lectura. Somos la comunidad que la comparte y la convierte en acción.</p>
-    <div class="manifesto">
-      <p>"Leemos para saber que no estamos solos."</p>
-      <span>— C. S. Lewis</span>
-      <p style="font-size: .95rem; font-style: normal; font-family: 'Lato', sans-serif; margin: 24px 0 0; color: var(--crema-oscura);">Sal de la rutina y vive la lectura a plenitud.</p>
-    </div>
-  </div>
+<div class="container">
+<p class="section-label">Por qué existimos</p>
+<h2 class="section-title">Porque leer<br/><em>lo cambia todo</em></h2>
+<p class="section-sub">No estás solo en tu lectura. Somos la comunidad que la comparte y la convierte en acción.</p>
+<div class="manifesto">
+<p>"Leemos para saber que no estamos solos."</p>
+<span>— C. S. Lewis</span>
+<p style="font-size: .95rem; font-style: normal; font-family: 'Lato', sans-serif; margin: 24px 0 0; color: var(--crema-oscura);">Sal de la rutina y vive la lectura a plenitud.</p>
+</div>
+</div>
 </section>
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div>
-    <div class="footer-logo">LECTUA</div>
-    <div class="footer-tagline">Lee. Conecta. Comparte. Actúa.</div>
-  </div>
-  <div class="footer-links">
-    <a href="#beneficios">beneficios</a>
-    <a href="https://instagram.com/somoslectua" target="_blank">@somoslectua · Lectualidad</a>
-    <a href="#que-es">¿Qué es?</a>
-    <a href="#lo-que-hacemos">lo que hacemos</a>
-    <a href="#lectuamigos">Lectuamigos</a>
-  </div>
-  <div class="footer-copy">© 2026 Lectua · Todos los derechos reservados</div>
+<div>
+<div class="footer-logo">LECTUA</div>
+<div class="footer-tagline">Lee. Conecta. Comparte. Actúa.</div>
+</div>
+<div class="footer-links">
+<a href="#beneficios">beneficios</a>
+<a href="https://instagram.com/somoslectua" target="_blank">@somoslectua · Lectualidad</a>
+<a href="#que-es">¿Qué es?</a>
+<a href="#lo-que-hacemos">lo que hacemos</a>
+<a href="#empresas">Empresas</a>
+<a href="#lectuamigos">Lectuamigos</a>
+</div>
+<div class="footer-copy">© 2026 Lectua · Todos los derechos reservados</div>
 </footer>
 
 <!-- ── LOGIN MODAL (v1 demo) ── -->
 <div class="modal-overlay" id="auth-overlay" onclick="if(event.target===this)closeAuth()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeAuth()" aria-label="Cerrar">&times;</button>
-    <h3>Bienvenido a LECTUA</h3>
-    <p class="m-sub">Tu comunidad de lectura y escritura.</p>
-    <div class="m-tabs">
-      <button class="m-tab" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
-      <button class="m-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</button>
-    </div>
-    <div class="m-msg-error" id="m-error"></div>
-    <div class="m-msg-ok" id="m-ok"></div>
-    <form id="form-login" onsubmit="doLogin(event)">
-      <div class="m-field"><label>Correo</label><input type="email" id="li-email" placeholder="hola@correo.com" required></div>
-      <div class="m-field"><label>Contraseña</label><input type="password" id="li-pass" placeholder="••••••••" required></div>
-      <button type="submit" class="m-submit">Entrar →</button>
-    </form>
-    <form id="form-registro" style="display:none" onsubmit="doRegister(event)">
-      <div class="m-field"><label>Tu nombre</label><input type="text" id="re-nombre" placeholder="Valentina Cruz" required></div>
-      <div class="m-field"><label>Correo</label><input type="email" id="re-email" placeholder="hola@correo.com" required></div>
-      <div class="m-field"><label>Contraseña</label><input type="password" id="re-pass" placeholder="Mínimo 6 caracteres" required></div>
-      <button type="submit" class="m-submit">Crear mi cuenta →</button>
-    </form>
-    <p class="m-demo">Tu cuenta se guarda de forma segura en nuestra base de datos.<br>Funciona desde cualquier navegador.</p>
-  </div>
+<div class="modal">
+<button class="modal-close" onclick="closeAuth()" aria-label="Cerrar">&times;</button>
+<h3>Bienvenido a LECTUA</h3>
+<p class="m-sub">Tu comunidad de lectura y escritura.</p>
+<div class="m-tabs">
+<button class="m-tab" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+<button class="m-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</button>
+</div>
+<div class="m-msg-error" id="m-error"></div>
+<div class="m-msg-ok" id="m-ok"></div>
+<form id="form-login" onsubmit="doLogin(event)">
+<div class="m-field"><label>Correo</label><input type="email" id="li-email" placeholder="hola@correo.com" required></div>
+<div class="m-field"><label>Contraseña</label><input type="password" id="li-pass" placeholder="••••••••" required></div>
+<button type="submit" class="m-submit">Entrar →</button>
+</form>
+<form id="form-registro" style="display:none" onsubmit="doRegister(event)">
+<div class="m-field"><label>Tu nombre</label><input type="text" id="re-nombre" placeholder="Valentina Cruz" required></div>
+<div class="m-field"><label>Correo</label><input type="email" id="re-email" placeholder="hola@correo.com" required></div>
+<div class="m-field"><label>Contraseña</label><input type="password" id="re-pass" placeholder="Mínimo 6 caracteres" required></div>
+<button type="submit" class="m-submit">Crear mi cuenta →</button>
+</form>
+<p class="m-demo">Tu cuenta se guarda de forma segura en nuestra base de datos.<br>Funciona desde cualquier navegador.</p>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  function showTab(tab) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    event.target.classList.add('active');
-  }
+function showTab(tab) {
+document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+document.getElementById('tab-' + tab).classList.add('active');
+event.target.classList.add('active');
+}
 
-  // Intersection observer para animaciones sutiles de entrada
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
+// Intersection observer para animaciones sutiles de entrada
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.style.opacity = '1';
+entry.target.style.transform = 'translateY(0)';
+}
+});
+}, { threshold: 0.1 });
 
-  document.querySelectorAll('.feature-card, .ciclo-card, .step, .benefit-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .5s ease, transform .5s ease';
-    observer.observe(el);
-  });
+document.querySelectorAll('.feature-card, .ciclo-card, .step, .benefit-item').forEach(el => {
+el.style.opacity = '0';
+el.style.transform = 'translateY(20px)';
+el.style.transition = 'opacity .5s ease, transform .5s ease';
+observer.observe(el);
+});
 
-  // ── LOGIN (v2 · Supabase Auth) ──
-  const $id = s => document.getElementById(s);
-  const esc = t => t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const sb = window.supabase.createClient(
-    'https://ixplmujkrcothlzufjps.supabase.co',
-    'sb_publishable_13MoNCdmVfsUGB1zVy02sw_-vfOFr9n'
-  );
-  const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+// ── LOGIN (v2 · Supabase Auth) ──
+const $id = s => document.getElementById(s);
+const esc = t => t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sb = window.supabase.createClient(
+'https://ixplmujkrcothlzufjps.supabase.co',
+'sb_publishable_13MoNCdmVfsUGB1zVy02sw_-vfOFr9n'
+);
+const emailOk = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
-  function openAuth(tab) { $id('auth-overlay').classList.add('open'); switchTab(tab); }
-  function closeAuth() { $id('auth-overlay').classList.remove('open'); hideMsgs(); }
-  function hideMsgs() { $id('m-error').style.display = 'none'; $id('m-ok').style.display = 'none'; }
-  function showErr(m) { hideMsgs(); const e = $id('m-error'); e.textContent = m; e.style.display = 'block'; }
-  function showOk(m) { hideMsgs(); const o = $id('m-ok'); o.textContent = m; o.style.display = 'block'; }
-  function switchTab(tab) {
-    hideMsgs();
-    $id('tab-login').classList.toggle('active', tab === 'login');
-    $id('tab-registro').classList.toggle('active', tab === 'registro');
-    $id('form-login').style.display = tab === 'login' ? 'block' : 'none';
-    $id('form-registro').style.display = tab === 'registro' ? 'block' : 'none';
-  }
-  function traducirError(msg) {
-    const m = (msg || '').toLowerCase();
-    if (m.includes('already registered') || m.includes('already been registered')) return 'Ese correo ya tiene cuenta. Inicia sesión.';
-    if (m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
-    if (m.includes('password should be at least')) return 'La contraseña debe tener al menos 6 caracteres.';
-    if (m.includes('rate limit') || m.includes('too many')) return 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
-    if (m.includes('invalid email') || m.includes('unable to validate email')) return 'Ese correo no parece válido.';
-    return 'Algo salió mal. Inténtalo de nuevo.';
-  }
-  async function doRegister(ev) {
-    ev.preventDefault();
-    const nombre = $id('re-nombre').value.trim(), email = $id('re-email').value.trim().toLowerCase(), pass = $id('re-pass').value;
-    if (!nombre) return showErr('Cuéntanos tu nombre.');
-    if (!emailOk(email)) return showErr('Ese correo no parece válido.');
-    if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
-    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { nombre } } });
-    if (error) return showErr(traducirError(error.message));
-    if (data && data.user && data.user.identities && data.user.identities.length === 0) return showErr('Ese correo ya tiene cuenta. Inicia sesión.');
-    switchTab('login');
-    $id('li-email').value = email;
-    showOk('¡Cuenta creada, ' + nombre + '! Ahora inicia sesión.');
-  }
-  async function doLogin(ev) {
-    ev.preventDefault();
-    const email = $id('li-email').value.trim().toLowerCase(), pass = $id('li-pass').value;
-    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-    if (error) return showErr(traducirError(error.message));
-    closeAuth();
-  }
-  async function logout() { await sb.auth.signOut(); }
-  let sesionActual = null;
-  function pintarSesion() {
-    const s = sesionActual;
-    const nombre = s ? (s.user.user_metadata && s.user.user_metadata.nombre ? s.user.user_metadata.nombre : s.user.email) : null;
-    $id('nav-auth').innerHTML = s
-      ? '<span class="nav-user">Hola, ' + esc(nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
-      : '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
-    const gate = $id('eventos-gate'), agenda = $id('eventos-contenido');
-    if (gate && agenda) { gate.style.display = s ? 'none' : 'block'; agenda.style.display = s ? 'block' : 'none'; }
-  }
-  sb.auth.getSession().then(({ data }) => { sesionActual = data.session; pintarSesion(); });
-  sb.auth.onAuthStateChange((_ev, session) => { sesionActual = session; pintarSesion(); });
+function openAuth(tab) { $id('auth-overlay').classList.add('open'); switchTab(tab); }
+function closeAuth() { $id('auth-overlay').classList.remove('open'); hideMsgs(); }
+function hideMsgs() { $id('m-error').style.display = 'none'; $id('m-ok').style.display = 'none'; }
+function showErr(m) { hideMsgs(); const e = $id('m-error'); e.textContent = m; e.style.display = 'block'; }
+function showOk(m) { hideMsgs(); const o = $id('m-ok'); o.textContent = m; o.style.display = 'block'; }
+function switchTab(tab) {
+hideMsgs();
+$id('tab-login').classList.toggle('active', tab === 'login');
+$id('tab-registro').classList.toggle('active', tab === 'registro');
+$id('form-login').style.display = tab === 'login' ? 'block' : 'none';
+$id('form-registro').style.display = tab === 'registro' ? 'block' : 'none';
+}
+function traducirError(msg) {
+const m = (msg || '').toLowerCase();
+if (m.includes('already registered') || m.includes('already been registered')) return 'Ese correo ya tiene cuenta. Inicia sesión.';
+if (m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
+if (m.includes('password should be at least')) return 'La contraseña debe tener al menos 6 caracteres.';
+if (m.includes('rate limit') || m.includes('too many')) return 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
+if (m.includes('invalid email') || m.includes('unable to validate email')) return 'Ese correo no parece válido.';
+return 'Algo salió mal. Inténtalo de nuevo.';
+}
+async function doRegister(ev) {
+ev.preventDefault();
+const nombre = $id('re-nombre').value.trim(), email = $id('re-email').value.trim().toLowerCase(), pass = $id('re-pass').value;
+if (!nombre) return showErr('Cuéntanos tu nombre.');
+if (!emailOk(email)) return showErr('Ese correo no parece válido.');
+if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
+const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { nombre } } });
+if (error) return showErr(traducirError(error.message));
+if (data && data.user && data.user.identities && data.user.identities.length === 0) return showErr('Ese correo ya tiene cuenta. Inicia sesión.');
+switchTab('login');
+$id('li-email').value = email;
+showOk('¡Cuenta creada, ' + nombre + '! Ahora inicia sesión.');
+}
+async function doLogin(ev) {
+ev.preventDefault();
+const email = $id('li-email').value.trim().toLowerCase(), pass = $id('li-pass').value;
+const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+if (error) return showErr(traducirError(error.message));
+closeAuth();
+}
+async function logout() { await sb.auth.signOut(); }
+let sesionActual = null;
+function pintarSesion() {
+const s = sesionActual;
+const nombre = s ? (s.user.user_metadata && s.user.user_metadata.nombre ? s.user.user_metadata.nombre : s.user.email) : null;
+$id('nav-auth').innerHTML = s
+? '<span class="nav-user">Hola, ' + esc(nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
+: '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
+const gate = $id('eventos-gate'), agenda = $id('eventos-contenido');
+if (gate && agenda) { gate.style.display = s ? 'none' : 'block'; agenda.style.display = s ? 'block' : 'none'; }
+const egate = $id('empresas-gate'), econt = $id('empresas-contenido');
+if (egate && econt) { egate.style.display = s ? 'none' : 'block'; econt.style.display = s ? 'block' : 'none'; }
+}
+sb.auth.getSession().then(({ data }) => { sesionActual = data.session; pintarSesion(); });
+sb.auth.onAuthStateChange((_ev, session) => { sesionActual = session; pintarSesion(); });
 </script>
 </body>
 </html>
