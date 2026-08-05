@@ -178,9 +178,11 @@ width: 44px; height: 44px;
 border: 2px solid var(--dorado);
 border-radius: 4px;
 display: flex; align-items: center; justify-content: center;
-font-size: 1.2rem; opacity: .6;
+opacity: .6;
 }
 .stamp.filled { opacity: 1; background: rgba(200,168,85,.1); }
+.stamp-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--dorado); display: block; }
+.stamp.filled .stamp-dot { background: var(--dorado); }
 
 /* floating elements */
 .hero-visual .deco {
@@ -195,6 +197,10 @@ animation: floatDeco 5s ease-in-out infinite;
 0%, 100% { transform: translateY(0); }
 50% { transform: translateY(-8px); }
 }
+
+/* ── ICONOS SVG ── */
+.icon-svg { width: 1.7rem; height: 1.7rem; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.icon-inline { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: inline-block; vertical-align: -2px; margin-right: 3px; }
 
 /* ── SECTION BASE ── */
 section { padding: 90px 6vw; }
@@ -345,8 +351,8 @@ padding: 18px; background: var(--crema); border-radius: 10px;
 width: 36px; height: 36px; flex-shrink: 0;
 background: var(--verde); color: var(--dorado);
 border-radius: 8px; display: flex; align-items: center; justify-content: center;
-font-size: 1.1rem;
 }
+.benefit-item .b-icon .icon-svg { width: 1.1rem; height: 1.1rem; }
 .benefit-item p { font-size: .88rem; color: #555; line-height: 1.6; }
 
 /* ── CTA LECTUAMIGOS ── */
@@ -355,9 +361,11 @@ background: linear-gradient(135deg, var(--verde) 0%, #0f1530 100%);
 position: relative; overflow: hidden;
 }
 .pasaporte-cta::before {
-content: '📖';
+content: '';
 position: absolute; right: -40px; bottom: -40px;
-font-size: 18rem; opacity: .04; line-height: 1;
+width: 320px; height: 320px; opacity: .05;
+background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5f0e8' stroke-width='0.6' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5c2-1.5 5-1.5 7 0v14c-2-1.5-5-1.5-7 0V5Z'/><path d='M21 5c-2-1.5-5-1.5-7 0v14c2-1.5 5-1.5 7 0V5Z'/></svg>");
+background-repeat: no-repeat; background-size: contain;
 }
 .cta-inner {
 max-width: 700px; margin: auto; text-align: center;
@@ -517,6 +525,31 @@ nav .nav-links { display: none; }
 </head>
 <body>
 
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5c2-1.5 5-1.5 7 0v14c-2-1.5-5-1.5-7 0V5Z"/><path d="M21 5c-2-1.5-5-1.5-7 0v14c2-1.5 5-1.5 7 0V5Z"/></symbol>
+<symbol id="i-coffee" viewBox="0 0 24 24"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M17 9h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1-1 1-1 2M12 3c0 1-1 1-1 2"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1Z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.2"/><path d="M15.2 14.3c1.7.7 2.8 2.5 2.8 5.7"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 4V5Z"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></symbol>
+<symbol id="i-handshake" viewBox="0 0 24 24"><path d="M2 11l4.5-4 3.5 2.6 3.5-2.6 4.5 4"/><path d="M8 9.6l3.4 3 3.6-3"/><path d="M2 11v3l4.5 4"/><path d="M22 11v3l-4.5 4"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3Z"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2Z"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M5 8c0 5 14 3 14 8"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c2 3-2 4-2 7a3 3 0 1 0 6 1c1 3-1 6-4 9-4-2-7-5-7-9 0-4 3-6 7-8Z"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4l-6 2v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M11 3h6a2 2 0 0 1 2 2v6l-9 9-8-8 9-9Z"/><circle cx="15" cy="7" r="1.3"/></symbol>
+<symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-school" viewBox="0 0 24 24"><path d="M12 3l10 5-10 5L2 8l10-5Z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2"/></symbol>
+<symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4l4 1 9 4V5L7 9l-4 1Z"/><path d="M11 18c0 2-1 3-2 3"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></symbol>
+</defs>
+</svg>
+
 <!-- ── NAV ── -->
 <nav>
 <a href="#" class="nav-logo">
@@ -557,9 +590,9 @@ LECTUA
 </div>
 </div>
 <div class="hero-visual">
-<span class="deco deco-1">📚</span>
-<span class="deco deco-2">☕</span>
-<span class="deco deco-3">✒️</span>
+<span class="deco deco-1"><svg class="icon-svg" style="width:2.5rem;height:2.5rem;color:var(--dorado)"><use href="#i-book"/></svg></span>
+<span class="deco deco-2"><svg class="icon-svg" style="width:2rem;height:2rem;color:var(--dorado)"><use href="#i-coffee"/></svg></span>
+<span class="deco deco-3"><svg class="icon-svg" style="width:1.8rem;height:1.8rem;color:var(--dorado)"><use href="#i-pen"/></svg></span>
 <div class="passport-card">
 <div class="stamp-ring">Lee<br/>y<br/>Actúa</div>
 <div class="p-title">Membresía</div>
@@ -567,12 +600,12 @@ LECTUA
 <div class="p-sub">Tu llave a la comunidad</div>
 <div class="p-divider"></div>
 <div class="stamps">
-<div class="stamp filled">🎭</div>
-<div class="stamp filled">🗺️</div>
-<div class="stamp filled">✍️</div>
-<div class="stamp filled">🎧</div>
-<div class="stamp">📖</div>
-<div class="stamp">🤝</div>
+<div class="stamp filled"><span class="stamp-dot"></span></div>
+<div class="stamp filled"><span class="stamp-dot"></span></div>
+<div class="stamp filled"><span class="stamp-dot"></span></div>
+<div class="stamp filled"><span class="stamp-dot"></span></div>
+<div class="stamp"><span class="stamp-dot"></span></div>
+<div class="stamp"><span class="stamp-dot"></span></div>
 </div>
 <div class="p-sub" style="font-size:.65rem; color: var(--dorado);">Cada experiencia es una historia</div>
 </div>
@@ -588,22 +621,22 @@ LECTUA
 <div class="que-es-grid">
 <div class="cards-2x2">
 <div class="feature-card">
-<div class="icon">👥</div>
+<div class="icon"><svg class="icon-svg" style="color:var(--verde)"><use href="#i-users"/></svg></div>
 <h4>Comunidad de lectores</h4>
 <p>Personas que comparten su pasión por los libros en espacios reales y digitales.</p>
 </div>
 <div class="feature-card">
-<div class="icon">💬</div>
+<div class="icon"><svg class="icon-svg" style="color:var(--verde)"><use href="#i-message"/></svg></div>
 <h4>Del lector al conversador</h4>
 <p> Conversa y escucha con un libro como puente para dar el paso.</p>
 </div>
 <div class="feature-card">
-<div class="icon">🎭</div>
+<div class="icon"><svg class="icon-svg" style="color:var(--verde)"><use href="#i-mic"/></svg></div>
 <h4>Eventos en vivo</h4>
 <p>Lecturas en voz alta y experiencias que sacan la literatura a la calle.</p>
 </div>
 <div class="feature-card">
-<div class="icon">🤝</div>
+<div class="icon"><svg class="icon-svg" style="color:var(--verde)"><use href="#i-handshake"/></svg></div>
 <h4>Alianzas y beneficios</h4>
 <p>Descuentos en libros, eventos culturales y experiencias literarias exclusivas.</p>
 </div>
@@ -679,22 +712,22 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <p class="section-sub">Nuestra metodología usa las cuatro tramas esenciales de toda gran historia, según Jorge Luis Borges, para explorar la vida.</p>
 <div class="ciclos-grid">
 <div class="ciclo-card">
-<div class="ciclo-icon">🏰</div>
+<div class="ciclo-icon"><svg class="icon-svg" style="width:2.8rem;height:2.8rem;color:var(--dorado);margin:0 auto"><use href="#i-shield"/></svg></div>
 <h3>El Asedio</h3>
 <p>Fortaleza ante los desafíos. Aprendemos a resistir y construir nuestro refugio interior.</p>
 </div>
 <div class="ciclo-card">
-<div class="ciclo-icon">⛵</div>
+<div class="ciclo-icon"><svg class="icon-svg" style="width:2.8rem;height:2.8rem;color:var(--dorado);margin:0 auto"><use href="#i-route"/></svg></div>
 <h3>El Viaje</h3>
 <p>Toda transformación es un viaje. Confianza, constancia y coraje para seguir avanzando.</p>
 </div>
 <div class="ciclo-card">
-<div class="ciclo-icon">🧭</div>
+<div class="ciclo-icon"><svg class="icon-svg" style="width:2.8rem;height:2.8rem;color:var(--dorado);margin:0 auto"><use href="#i-compass"/></svg></div>
 <h3>La Búsqueda</h3>
 <p>Preguntas, propósito y sentido. Lo que buscamos afuera, también nos busca adentro.</p>
 </div>
 <div class="ciclo-card">
-<div class="ciclo-icon">🔥</div>
+<div class="ciclo-icon"><svg class="icon-svg" style="width:2.8rem;height:2.8rem;color:var(--dorado);margin:0 auto"><use href="#i-flame"/></svg></div>
 <h3>El Sacrificio</h3>
 <p>Soltar lo que ya no somos para dar lugar a nuevas formas de ser y vivir.</p>
 </div>
@@ -712,24 +745,24 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <h2 class="section-title">Beneficios que<br/><em>conectan ecosistemas</em></h2>
 <p class="section-sub">Lectua crea valor para cada parte de la comunidad: lectores y aliados.</p>
 <div class="beneficios-tabs">
-<button class="tab-btn active" onclick="showTab('lectores')">📖 Para lectores</button>
-<button class="tab-btn" onclick="showTab('aliados')">🤝 Para aliados</button>
+<button class="tab-btn active" onclick="showTab('lectores')"><svg class="icon-inline"><use href="#i-book"/></svg>Para lectores</button>
+<button class="tab-btn" onclick="showTab('aliados')"><svg class="icon-inline"><use href="#i-handshake"/></svg>Para aliados</button>
 </div>
 <div class="tab-content active" id="tab-lectores">
-<div class="benefit-item"><div class="b-icon">👥</div><p>Comunidad real: tu lectura deja de ser una experiencia solitaria.</p></div>
-<div class="benefit-item"><div class="b-icon">🎭</div><p>Lectuantes: lecturas en vivo en cafés, restaurantes y lugares emblemáticos.</p></div>
-<div class="benefit-item"><div class="b-icon">🗺️</div><p>Lectours: rutas literarias por tu ciudad y viajes para leer y escribir.</p></div>
-<div class="benefit-item"><div class="b-icon">🏷️</div><p>Lectualianzas: descuentos en libros, eventos culturales y experiencias.</p></div>
-<div class="benefit-item"><div class="b-icon">🎧</div><p>Lectube: fragmentos de libros narrados por lectores y autores reconocidos.</p></div>
-<div class="benefit-item"><div class="b-icon">📅</div><p>Lectualidad: entérate primero de nuevos lugares, eventos y libros.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-users"/></svg></div><p>Comunidad real: tu lectura deja de ser una experiencia solitaria.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-mic"/></svg></div><p>Lectuantes: lecturas en vivo en cafés, restaurantes y lugares emblemáticos.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-map"/></svg></div><p>Lectours: rutas literarias por tu ciudad y viajes para leer y escribir.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-tag"/></svg></div><p>Lectualianzas: descuentos en libros, eventos culturales y experiencias.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-headphones"/></svg></div><p>Lectube: fragmentos de libros narrados por lectores y autores reconocidos.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-calendar"/></svg></div><p>Lectualidad: entérate primero de nuevos lugares, eventos y libros.</p></div>
 </div>
 <div class="tab-content" id="tab-aliados">
-<div class="benefit-item"><div class="b-icon">🏫</div><p>Colegios: iniciativas de lectura en familia con asociaciones de padres.</p></div>
-<div class="benefit-item"><div class="b-icon">🏢</div><p>Empresas: fomento de la lectura en el ámbito laboral con talleres y clubes.</p></div>
-<div class="benefit-item"><div class="b-icon">☕</div><p>Cafés y restaurantes: sé sede de Lectuantes y atrae público lector.</p></div>
-<div class="benefit-item"><div class="b-icon">📚</div><p>Librerías y editoriales: una demanda dispersa se convierte en comunidad.</p></div>
-<div class="benefit-item"><div class="b-icon">📣</div><p>Promoción conjunta en la Lectualidad de nuestras redes.</p></div>
-<div class="benefit-item"><div class="b-icon">🌐</div><p>Parte de un ecosistema cultural que crece con cada alianza.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-school"/></svg></div><p>Colegios: iniciativas de lectura en familia con asociaciones de padres.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-building"/></svg></div><p>Empresas: fomento de la lectura en el ámbito laboral con talleres y clubes.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-coffee"/></svg></div><p>Cafés y restaurantes: sé sede de Lectuantes y atrae público lector.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-book"/></svg></div><p>Librerías y editoriales: una demanda dispersa se convierte en comunidad.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-megaphone"/></svg></div><p>Promoción conjunta en la Lectualidad de nuestras redes.</p></div>
+<div class="benefit-item"><div class="b-icon"><svg class="icon-svg"><use href="#i-globe"/></svg></div><p>Parte de un ecosistema cultural que crece con cada alianza.</p></div>
 </div>
 </div>
 </section>
@@ -754,21 +787,21 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <div class="ev-fecha">SÁB · 18 JUL 2026 · 4:00 P.M.</div>
 <h4>Lectuante de estreno</h4>
 <p>Lectura en voz alta + café en un aliado de Chapinero. La literatura cobra vida a través de la voz: trae tu libro favorito o solo ven a escuchar.</p>
-<div class="ev-meta">📍 Café aliado · Bogotá · Cupo 30</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café aliado · Bogotá · Cupo 30</div>
 <a class="ev-btn" href="https://luma.com/1mhwjh5d" target="_blank">Reservar gratis →</a>
 </div>
 <div class="evento-card">
 <div class="ev-fecha">SÁB · 25 JUL 2026 · 4:00 P.M.</div>
 <h4>Taller relámpago: Tu primera página</h4>
 <p>45 minutos para dar el paso del lector al escritor. Sales con tu primera página escrita y ganas de seguir.</p>
-<div class="ev-meta">📍 Librería aliada · Bogotá · Cupo 20</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Librería aliada · Bogotá · Cupo 20</div>
 <a class="ev-btn" href="https://luma.com/r8ol8lid" target="_blank">Reservar gratis →</a>
 </div>
 <div class="evento-card">
 <div class="ev-fecha">SÁB · 1 AGO 2026 · 7:00 P.M.</div>
 <h4>Micrófono abierto Lectube</h4>
 <p>Noche de lecturas en voz alta: 5 minutos por lector para compartir el fragmento que te transformó. Las mejores voces se graban para Lectube.</p>
-<div class="ev-meta">📍 Por confirmar · Bogotá · Entrada libre</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Por confirmar · Bogotá · Entrada libre</div>
 <a class="ev-btn" href="https://luma.com/3guzkfmz" target="_blank">Reservar gratis →</a>
 </div>
 </div>
@@ -778,7 +811,7 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <div class="ev-fecha">SÁB · 8 AGO 2026 · 7:30 P.M.</div>
 <h4>Cena literaria con autor invitado</h4>
 <p>Tres tiempos, una mesa larga y una conversación íntima con un autor invitado. La experiencia insignia de Lectua.</p>
-<div class="ev-meta">📍 Restaurante aliado · Bogotá · Cupo 20</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Restaurante aliado · Bogotá · Cupo 20</div>
 <div class="ev-precio">COP $150.000</div>
 <a class="ev-btn" href="https://luma.com/by2upwf2" target="_blank">Comprar mi cupo →</a>
 </div>
@@ -786,7 +819,7 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <div class="ev-fecha">INICIA SÁB · 15 AGO 2026 · 4 SESIONES</div>
 <h4>Ciclo completo: El Viaje</h4>
 <p>Un mes de club guiado con la metodología de los 4 ciclos: lecturas, conversación y cuaderno de viaje incluido.</p>
-<div class="ev-meta">📍 Café aliado · Bogotá · Cupo 15</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café aliado · Bogotá · Cupo 15</div>
 <div class="ev-precio">COP $180.000</div>
 <a class="ev-btn" href="https://luma.com/s6cp2p7a" target="_blank">Comprar mi cupo →</a>
 </div>
@@ -794,7 +827,7 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <div class="ev-fecha">SÁB · 22 AGO 2026 · DÍA COMPLETO</div>
 <h4>Lectour: ruta literaria de día completo</h4>
 <p>Parques, librerías y rincones inspiradores con paradas de lectura y escritura. Incluye transporte, almuerzo y un libro sorpresa.</p>
-<div class="ev-meta">📍 Salida desde Bogotá · Cupo 18</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Salida desde Bogotá · Cupo 18</div>
 <div class="ev-precio">COP $220.000</div>
 <a class="ev-btn" href="https://luma.com/k8io9h1p" target="_blank">Comprar mi cupo →</a>
 </div>
@@ -829,7 +862,7 @@ Nuestra herramienta insignia para empresas es la <strong style="color:var(--verd
 </div>
 <div id="empresas-gate">
 <div class="portafolio-card">
-<div class="pf-icon">📖</div>
+<div class="pf-icon"><svg class="icon-svg" style="width:2.6rem;height:2.6rem;color:var(--dorado);margin:0 auto"><use href="#i-book"/></svg></div>
 <h3>Descarga el portafolio completo</h3>
 <p>Regístrate gratis en Lectua para descargar el portafolio de servicios para empresas: metodología, soluciones y el equipo detrás de Lectua.</p>
 <button class="btn-primary" onclick="openAuth('registro')">Registrarme para descargar →</button>
@@ -838,7 +871,7 @@ Nuestra herramienta insignia para empresas es la <strong style="color:var(--verd
 </div>
 <div id="empresas-contenido" style="display:none">
 <div class="portafolio-card">
-<div class="pf-icon">📖</div>
+<div class="pf-icon"><svg class="icon-svg" style="width:2.6rem;height:2.6rem;color:var(--dorado);margin:0 auto"><use href="#i-book"/></svg></div>
 <h3>Portafolio de servicios</h3>
 <p>Metodología, soluciones para el entorno laboral, educativo y de salud, y el equipo detrás de Lectua — listo para compartir con tu organización.</p>
 <a class="btn-primary" href="assets/Portafolio%20de%20servicios.pdf" download="Portafolio-de-servicios-Lectua.pdf" style="display:block;">Descargar PDF →</a>
