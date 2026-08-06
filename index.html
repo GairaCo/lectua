@@ -949,6 +949,7 @@ Nuestra herramienta insignia para empresas es la <strong style="color:var(--verd
 <form id="form-login" onsubmit="doLogin(event)">
 <div class="m-field"><label>Correo</label><input type="email" id="li-email" placeholder="hola@correo.com" required></div>
 <div class="m-field"><label>Contraseña</label><input type="password" id="li-pass" placeholder="••••••••" required></div>
+<p style="text-align:right; margin:-8px 0 14px;"><a href="#" onclick="switchTab('recuperar'); return false;" style="font-size:.78rem; color:var(--verde-claro);">¿Olvidaste tu contraseña?</a></p>
 <button type="submit" class="m-submit">Entrar →</button>
 </form>
 <form id="form-registro" style="display:none" onsubmit="doRegister(event)">
@@ -957,7 +958,18 @@ Nuestra herramienta insignia para empresas es la <strong style="color:var(--verd
 <div class="m-field"><label>Contraseña</label><input type="password" id="re-pass" placeholder="Mínimo 6 caracteres" required></div>
 <button type="submit" class="m-submit">Crear mi cuenta →</button>
 </form>
-<p class="m-demo">Tu cuenta se guarda de forma segura en nuestra base de datos.<br>Funciona desde cualquier navegador.</p>
+<form id="form-recuperar" style="display:none" onsubmit="doRecuperar(event)">
+<p style="font-size:.85rem; color:#666; margin-bottom:16px;">Te enviamos un enlace a tu correo para crear una nueva contraseña.</p>
+<div class="m-field"><label>Correo</label><input type="email" id="rec-email" placeholder="hola@correo.com" required></div>
+<button type="submit" class="m-submit">Enviar enlace →</button>
+<p style="text-align:center; margin-top:16px;"><a href="#" onclick="switchTab('login'); return false;" style="font-size:.8rem; color:var(--verde-claro);">← Volver a iniciar sesión</a></p>
+</form>
+<form id="form-nueva" style="display:none" onsubmit="doNuevaClave(event)">
+<p style="font-size:.85rem; color:#666; margin-bottom:16px;">Elegí tu nueva contraseña.</p>
+<div class="m-field"><label>Nueva contraseña</label><input type="password" id="nueva-pass" placeholder="Mínimo 6 caracteres" required></div>
+<button type="submit" class="m-submit">Guardar contraseña →</button>
+</form>
+<p class="m-demo" id="m-demo-tip">Tu cuenta se guarda de forma segura en nuestra base de datos.<br>Funciona desde cualquier navegador.</p>
 </div>
 </div>
 
@@ -1003,10 +1015,16 @@ function showErr(m) { hideMsgs(); const e = $id('m-error'); e.textContent = m; e
 function showOk(m) { hideMsgs(); const o = $id('m-ok'); o.textContent = m; o.style.display = 'block'; }
 function switchTab(tab) {
 hideMsgs();
+const tabsRow = document.querySelector('.m-tabs');
+const esAuxiliar = (tab === 'recuperar' || tab === 'nueva');
+tabsRow.style.display = esAuxiliar ? 'none' : 'flex';
+$id('m-demo-tip').style.display = esAuxiliar ? 'none' : 'block';
 $id('tab-login').classList.toggle('active', tab === 'login');
 $id('tab-registro').classList.toggle('active', tab === 'registro');
 $id('form-login').style.display = tab === 'login' ? 'block' : 'none';
 $id('form-registro').style.display = tab === 'registro' ? 'block' : 'none';
+$id('form-recuperar').style.display = tab === 'recuperar' ? 'block' : 'none';
+$id('form-nueva').style.display = tab === 'nueva' ? 'block' : 'none';
 }
 function traducirError(msg) {
 const m = (msg || '').toLowerCase();
@@ -1037,6 +1055,23 @@ const { error } = await sb.auth.signInWithPassword({ email, password: pass });
 if (error) return showErr(traducirError(error.message));
 closeAuth();
 }
+async function doRecuperar(ev) {
+ev.preventDefault();
+const email = $id('rec-email').value.trim().toLowerCase();
+if (!emailOk(email)) return showErr('Ese correo no parece válido.');
+const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + window.location.pathname });
+if (error) return showErr(traducirError(error.message));
+showOk('Listo. Revisá tu correo (' + email + ') y hacé clic en el enlace para crear una nueva contraseña.');
+}
+async function doNuevaClave(ev) {
+ev.preventDefault();
+const pass = $id('nueva-pass').value;
+if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
+const { error } = await sb.auth.updateUser({ password: pass });
+if (error) return showErr(traducirError(error.message));
+showOk('¡Contraseña actualizada! Ya podés seguir navegando.');
+setTimeout(closeAuth, 2000);
+}
 async function logout() { await sb.auth.signOut(); }
 let sesionActual = null;
 function pintarSesion() {
@@ -1051,7 +1086,10 @@ const egate = $id('empresas-gate'), econt = $id('empresas-contenido');
 if (egate && econt) { egate.style.display = s ? 'none' : 'block'; econt.style.display = s ? 'block' : 'none'; }
 }
 sb.auth.getSession().then(({ data }) => { sesionActual = data.session; pintarSesion(); });
-sb.auth.onAuthStateChange((_ev, session) => { sesionActual = session; pintarSesion(); });
+sb.auth.onAuthStateChange((_ev, session) => {
+sesionActual = session; pintarSesion();
+if (_ev === 'PASSWORD_RECOVERY') { openAuth('nueva'); }
+});
 </script>
 </body>
 </html>
