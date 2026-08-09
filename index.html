@@ -475,6 +475,31 @@ nav .nav-links { display: none; }
 .ev-nota { font-size: .78rem; color: #999; text-align: center; margin-top: 28px; }
 @media (max-width: 900px) { .eventos-grid { grid-template-columns: 1fr; } }
 
+/* ── CARRUSEL PÚBLICO: PRÓXIMOS EVENTOS ── */
+.carrusel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 40px 0 18px; }
+.carrusel-head h3 { font-size: 1.35rem; color: var(--verde); font-family: 'Playfair Display', serif; }
+.carrusel-nav { display: flex; gap: 8px; flex-shrink: 0; }
+.carrusel-nav button { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--crema-oscura); background: #fff; color: var(--verde); cursor: pointer; font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s, opacity .2s; }
+.carrusel-nav button:hover { background: var(--verde); border-color: var(--verde); color: var(--crema); }
+.carrusel-nav button:disabled { opacity: .35; cursor: default; background: #fff; border-color: var(--crema-oscura); color: var(--verde); }
+.carrusel-track { display: flex; gap: 18px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; padding: 4px 4px 16px; -ms-overflow-style: none; scrollbar-width: none; }
+.carrusel-track::-webkit-scrollbar { display: none; }
+.ev-mini { flex: 0 0 300px; scroll-snap-align: start; background: #fff; border: 1px solid var(--crema-oscura); border-radius: 14px; padding: 24px 22px; display: flex; flex-direction: column; gap: 12px; transition: transform .2s, box-shadow .2s; }
+.ev-mini:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+.ev-mini h4 { color: var(--verde); font-size: 1.1rem; line-height: 1.35; flex: 1; }
+.ev-mini .ev-fecha { color: var(--verde-claro); }
+.ev-lock { display: flex; align-items: center; gap: 7px; font-size: .78rem; color: #8a8070; border-top: 1px solid var(--crema-oscura); padding-top: 12px; }
+.ev-mini .ev-btn { border: none; cursor: pointer; font-family: 'Lato', sans-serif; width: 100%; }
+.carrusel-hint { font-size: .8rem; color: #999; margin-top: 2px; }
+
+/* ── EVENTOS PASADOS ── */
+.ev-mini.ev-pasado { background: transparent; border: 1px dashed #d6cbb4; opacity: .85; }
+.ev-mini.ev-pasado:hover { transform: none; box-shadow: none; }
+.ev-pasado .ev-fecha { color: #a39a88; }
+.ev-pasado h4 { color: #7a7466; font-weight: 600; }
+.ev-pasado span { display: inline-block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: #a39a88; border-top: 1px solid #e2d9c4; padding-top: 12px; }
+@media (max-width: 900px) { .ev-mini { flex-basis: 84%; } }
+
 /* ── LOGIN (v1 demo) ── */
 .nav-entrar { color: var(--crema-oscura); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-right: 18px; transition: color .2s; cursor: pointer; }
 .nav-entrar:hover { color: var(--dorado); }
@@ -773,6 +798,25 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <p class="section-label">Agenda</p>
 <h2 class="section-title">Eventos para<br/><em>leer y actuar</em></h2>
 <p class="section-sub">Vive la experiencia gratis con los eventos freemium y da el salto a las experiencias premium de cupo limitado.</p>
+
+<!-- Carrusel público: solo títulos, sin detalles -->
+<div class="carrusel-head">
+<h3>Próximos eventos</h3>
+<div class="carrusel-nav">
+<button type="button" id="carr-prev" aria-label="Anterior">&#8592;</button>
+<button type="button" id="carr-next" aria-label="Siguiente">&#8594;</button>
+</div>
+</div>
+<div class="carrusel-track" id="carrusel-proximos">
+<div class="ev-mini">
+<div class="ev-fecha">VIE · 21 AGO 2026</div>
+<h4>Read &amp; Connect</h4>
+<div class="ev-lock"><svg class="icon-inline"><use href="#i-shield"/></svg>Detalles y cupos para miembros</div>
+<button class="ev-btn" onclick="verDetalleEvento()">Ver detalles →</button>
+</div>
+</div>
+<p class="carrusel-hint">Desliza para ver toda la agenda. Regístrate gratis para conocer lugar, cupos y reservar.</p>
+
 <div id="eventos-gate">
 <div class="gate-card">
 <h3>La agenda es solo para miembros</h3>
@@ -781,58 +825,43 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 </div>
 </div>
 <div id="eventos-contenido" style="display:none">
-<h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Eventos gratuitos — vive la experiencia</h3>
+<h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Próximo encuentro de la comunidad</h3>
 <div class="eventos-grid">
 <div class="evento-card">
-<div class="ev-fecha">SÁB · 18 JUL 2026 · 4:00 P.M.</div>
+<div class="ev-fecha">VIE · 21 AGO 2026 · 7:00 P.M.</div>
+<h4>Read &amp; Connect</h4>
+<p>Lectura analógica + micrófono abierto + networking en San Felipe distrito cultural. Recupera el hábito de leer sin notificaciones: trae tu libro favorito o el que estés leyendo, comparte tus citas preferidas en el stand-up reading y conecta con otros lectores entre café y nostalgia noventera.</p>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café Internet PDF · Chapinero, Bogotá · Cupo 80</div>
+<a class="ev-btn" href="https://luma.com/vy5n2ot1" target="_blank">Reservar gratis →</a>
+</div>
+</div>
+<p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. La ubicación exacta se confirma a los inscritos.</p>
+</div>
+
+<!-- Eventos pasados (público) -->
+<div class="carrusel-head" style="margin-top:52px;">
+<h3>Eventos pasados</h3>
+<div class="carrusel-nav">
+<button type="button" id="pas-prev" aria-label="Anterior">&#8592;</button>
+<button type="button" id="pas-next" aria-label="Siguiente">&#8594;</button>
+</div>
+</div>
+<div class="carrusel-track" id="carrusel-pasados">
+<div class="ev-mini ev-pasado">
+<div class="ev-fecha">SÁB · 18 JUL 2026</div>
 <h4>Lectuante de estreno</h4>
-<p>Lectura en voz alta + café en un aliado de Chapinero. La literatura cobra vida a través de la voz: trae tu libro favorito o solo ven a escuchar.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café aliado · Bogotá · Cupo 30</div>
-<a class="ev-btn" href="https://luma.com/1mhwjh5d" target="_blank">Reservar gratis →</a>
+<span>Lanzamiento · Café aliado · Bogotá</span>
 </div>
-<div class="evento-card">
-<div class="ev-fecha">SÁB · 25 JUL 2026 · 4:00 P.M.</div>
+<div class="ev-mini ev-pasado">
+<div class="ev-fecha">SÁB · 25 JUL 2026</div>
 <h4>Taller relámpago: Tu primera página</h4>
-<p>45 minutos para dar el paso del lector al escritor. Sales con tu primera página escrita y ganas de seguir.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Librería aliada · Bogotá · Cupo 20</div>
-<a class="ev-btn" href="https://luma.com/r8ol8lid" target="_blank">Reservar gratis →</a>
+<span>Librería aliada · Bogotá</span>
 </div>
-<div class="evento-card">
-<div class="ev-fecha">SÁB · 1 AGO 2026 · 7:00 P.M.</div>
+<div class="ev-mini ev-pasado">
+<div class="ev-fecha">SÁB · 1 AGO 2026</div>
 <h4>Micrófono abierto Lectube</h4>
-<p>Noche de lecturas en voz alta: 5 minutos por lector para compartir el fragmento que te transformó. Las mejores voces se graban para Lectube.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Por confirmar · Bogotá · Entrada libre</div>
-<a class="ev-btn" href="https://luma.com/3guzkfmz" target="_blank">Reservar gratis →</a>
+<span>Lectube · Bogotá</span>
 </div>
-</div>
-<h3 class="ev-cat"><span class="ev-badge ev-prem">Premium</span> Experiencias de cupo limitado</h3>
-<div class="eventos-grid">
-<div class="evento-card prem">
-<div class="ev-fecha">SÁB · 8 AGO 2026 · 7:30 P.M.</div>
-<h4>Cena literaria con autor invitado</h4>
-<p>Tres tiempos, una mesa larga y una conversación íntima con un autor invitado. La experiencia insignia de Lectua.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Restaurante aliado · Bogotá · Cupo 20</div>
-<div class="ev-precio">COP $150.000</div>
-<a class="ev-btn" href="https://luma.com/by2upwf2" target="_blank">Comprar mi cupo →</a>
-</div>
-<div class="evento-card prem">
-<div class="ev-fecha">INICIA SÁB · 15 AGO 2026 · 4 SESIONES</div>
-<h4>Ciclo completo: El Viaje</h4>
-<p>Un mes de club guiado con la metodología de los 4 ciclos: lecturas, conversación y cuaderno de viaje incluido.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café aliado · Bogotá · Cupo 15</div>
-<div class="ev-precio">COP $180.000</div>
-<a class="ev-btn" href="https://luma.com/s6cp2p7a" target="_blank">Comprar mi cupo →</a>
-</div>
-<div class="evento-card prem">
-<div class="ev-fecha">SÁB · 22 AGO 2026 · DÍA COMPLETO</div>
-<h4>Lectour: ruta literaria de día completo</h4>
-<p>Parques, librerías y rincones inspiradores con paradas de lectura y escritura. Incluye transporte, almuerzo y un libro sorpresa.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Salida desde Bogotá · Cupo 18</div>
-<div class="ev-precio">COP $220.000</div>
-<a class="ev-btn" href="https://luma.com/k8io9h1p" target="_blank">Comprar mi cupo →</a>
-</div>
-</div>
-<p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. La ubicación secreta se revela a los inscritos. Precios orientativos de lanzamiento.</p>
 </div>
 </div>
 </section>
@@ -1073,6 +1102,34 @@ showOk('¡Contraseña actualizada! Ya podés seguir navegando.');
 setTimeout(closeAuth, 2000);
 }
 async function logout() { await sb.auth.signOut(); }
+
+/* Carrusel de próximos eventos */
+function verDetalleEvento() {
+  if (sesionActual) {
+    const cont = $id('eventos-contenido');
+    if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    openAuth('registro');
+  }
+}
+function initCarrusel(trackId, prevId, nextId) {
+  const track = $id(trackId);
+  const prev = $id(prevId), next = $id(nextId);
+  if (!track || !prev || !next) return;
+  const paso = () => { const c = track.querySelector('.ev-mini'); return c ? c.offsetWidth + 18 : 300; };
+  const sync = () => {
+    const sinScroll = track.scrollWidth <= track.clientWidth + 4;
+    prev.disabled = sinScroll || track.scrollLeft <= 4;
+    next.disabled = sinScroll || track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+  };
+  prev.addEventListener('click', () => { track.scrollLeft -= paso(); setTimeout(sync, 350); });
+  next.addEventListener('click', () => { track.scrollLeft += paso(); setTimeout(sync, 350); });
+  track.addEventListener('scroll', sync);
+  window.addEventListener('resize', sync);
+  sync();
+}
+initCarrusel('carrusel-proximos', 'carr-prev', 'carr-next');
+initCarrusel('carrusel-pasados', 'pas-prev', 'pas-next');
 let sesionActual = null;
 function pintarSesion() {
 const s = sesionActual;
