@@ -501,11 +501,19 @@ nav .nav-links { display: none; }
 .ev-cover .icon-svg { width: 2rem; height: 2rem; }
 .ev-cover-tag { font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,240,232,.75); font-family: 'Lato', sans-serif; }
 .ev-mini-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
-.ev-mini h4 { color: var(--verde); font-size: 1.1rem; line-height: 1.35; }
+.ev-mini.prem { border: 2px solid var(--dorado); background: linear-gradient(180deg, #fff, #fdf8ec); }
+.ev-mini h4 { color: var(--verde); font-size: 1.1rem; line-height: 1.35; flex: 1; }
 .ev-mini .ev-fecha { color: var(--verde-claro); }
-.ev-lock { display: flex; align-items: center; gap: 7px; font-size: .78rem; color: #8a8070; border-top: 1px solid var(--crema-oscura); padding-top: 12px; margin-top: auto; }
+.ev-mini.prem .ev-fecha { color: #a8842f; }
+.ev-lock { display: flex; align-items: center; gap: 7px; font-size: .78rem; color: #8a8070; border-top: 1px solid var(--crema-oscura); padding-top: 12px; }
 .ev-mini .ev-btn { border: none; cursor: pointer; font-family: 'Lato', sans-serif; width: 100%; }
 .carrusel-hint { font-size: .8rem; color: #999; margin-top: 2px; }
+.ev-desc { font-size: .85rem; color: #555; line-height: 1.6; }
+.solo-miembro { display: none; flex-direction: column; gap: 10px; }
+.eventos.logueado .solo-invitado { display: none !important; }
+.eventos.logueado .solo-miembro { display: flex; }
+.eventos.logueado p.solo-miembro { display: block; }
+.solo-miembro .ev-btn { margin-top: 4px; }
 
 /* ── EVENTOS PASADOS ── */
 .pasados-head { margin-top: 60px; align-items: baseline; }
@@ -838,31 +846,25 @@ Y en nuestras redes, toda la <strong style="color: var(--verde);">Lectualidad</s
 <span class="ev-cover-tag">Lectura · Micrófono · Networking</span>
 </div>
 <div class="ev-mini-body">
-<div class="ev-fecha">VIE · 21 AGO 2026</div>
+<div class="ev-fecha">VIE · 21 AGO 2026 · 7:00 P.M.</div>
 <h4>Read &amp; Connect</h4>
 <span class="ev-mini-badge free">Freemium</span>
+<div class="solo-invitado">
 <div class="ev-lock"><svg class="icon-inline"><use href="#i-shield"/></svg>Detalles y cupos para miembros</div>
 <button class="ev-btn" onclick="verDetalleEvento()">Ver detalles →</button>
+</div>
+<div class="solo-miembro">
+<p class="ev-desc">Lectura analógica + micrófono abierto + networking en San Felipe distrito cultural. Trae tu libro favorito, comparte tus citas en el stand-up reading y conecta con otros lectores entre café y nostalgia noventera.</p>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café Internet PDF · Chapinero, Bogotá</div>
+<div class="ev-meta"><svg class="icon-inline"><use href="#i-users"/></svg>Cupo 80 · Entrada libre</div>
+<a class="ev-btn" href="https://luma.com/vy5n2ot1" target="_blank">Reservar gratis →</a>
 </div>
 </div>
 </div>
 <button type="button" class="carr-btn" id="carr-next" aria-label="Siguiente"><svg class="icon-svg"><use href="#i-chev-right"/></svg></button>
 </div>
-<p class="carrusel-hint">Desliza para ver toda la agenda. Regístrate gratis para conocer lugar, cupos y reservar.</p>
-
-<div id="eventos-contenido" style="display:none">
-<h3 class="ev-cat"><span class="ev-badge ev-free">Freemium</span> Próximo encuentro de la comunidad</h3>
-<div class="eventos-grid">
-<div class="evento-card">
-<div class="ev-fecha">VIE · 21 AGO 2026 · 7:00 P.M.</div>
-<h4>Read &amp; Connect</h4>
-<p>Lectura analógica + micrófono abierto + networking en San Felipe distrito cultural. Recupera el hábito de leer sin notificaciones: trae tu libro favorito o el que estés leyendo, comparte tus citas preferidas en el stand-up reading y conecta con otros lectores entre café y nostalgia noventera.</p>
-<div class="ev-meta"><svg class="icon-inline"><use href="#i-pin"/></svg>Café Internet PDF · Chapinero, Bogotá · Cupo 80</div>
-<a class="ev-btn" href="https://luma.com/vy5n2ot1" target="_blank">Reservar gratis →</a>
-</div>
-</div>
-<p class="ev-nota">La inscripción, los recordatorios y el aforo se gestionan en Luma. La ubicación exacta se confirma a los inscritos.</p>
-</div>
+<p class="carrusel-hint solo-invitado">Regístrate gratis para conocer lugar, cupos y reservar.</p>
+<p class="carrusel-hint solo-miembro">La inscripción y el aforo se gestionan en Luma. La ubicación exacta se confirma a los inscritos.</p>
 
 <!-- Eventos pasados (público) -->
 <div class="carrusel-head pasados-head">
@@ -1185,12 +1187,7 @@ async function logout() { await sb.auth.signOut(); }
 
 /* Carrusel de próximos eventos */
 function verDetalleEvento() {
-  if (sesionActual) {
-    const cont = $id('eventos-contenido');
-    if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    openAuth('registro');
-  }
+  if (!sesionActual) openAuth('registro');
 }
 function initCarrusel(trackId, prevId, nextId) {
   const track = $id(trackId);
@@ -1219,8 +1216,10 @@ const nombre = s ? (s.user.user_metadata && s.user.user_metadata.nombre ? s.user
 $id('nav-auth').innerHTML = s
 ? '<span class="nav-user">Hola, ' + esc(nombre) + '</span><a class="nav-entrar" onclick="logout()">Salir</a>'
 : '<a class="nav-entrar" onclick="openAuth(\'login\')">Entrar</a>';
-const gate = $id('eventos-gate'), agenda = $id('eventos-contenido');
-if (gate && agenda) { gate.style.display = s ? 'none' : 'block'; agenda.style.display = s ? 'block' : 'none'; }
+const gate = $id('eventos-gate');
+if (gate) gate.style.display = s ? 'none' : 'block';
+const secEv = document.querySelector('section.eventos');
+if (secEv) secEv.classList.toggle('logueado', !!s);
 const egate = $id('empresas-gate'), econt = $id('empresas-contenido');
 if (egate && econt) { egate.style.display = s ? 'none' : 'block'; econt.style.display = s ? 'block' : 'none'; }
 }
