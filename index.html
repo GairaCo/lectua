@@ -192,29 +192,6 @@ animation: floatDeco 5s ease-in-out infinite;
 50% { transform: translateY(-8px); }
 }
 
-/* ── ABANICO DE RECUERDOS (animación decorativa) ── */
-.memory-fan {
-position: absolute; bottom: -18px; right: 4%;
-width: 44px; height: 58px;
-z-index: 2;
-}
-.fan-card {
-position: absolute; top: 0; left: 0;
-width: 40px; height: 54px; border-radius: 7px;
-background: var(--blanco); border: 1.5px solid var(--dorado);
-display: flex; align-items: center; justify-content: center;
-color: var(--verde-medio);
-box-shadow: 0 6px 14px rgba(20,18,14,.18);
-transform-origin: bottom center;
-animation: fanOut 7s ease-in-out infinite;
-animation-delay: calc(var(--i) * 0.07s);
-}
-.fan-card .icon-svg { width: 1.1rem; height: 1.1rem; }
-@keyframes fanOut {
-0%, 12%, 100% { transform: rotate(0deg) translateY(0); }
-50%, 62% { transform: rotate(calc((var(--i) - 2.5) * 16deg)) translateY(-16px); }
-}
-
 /* ── ICONOS SVG ── */
 .icon-svg { width: 1.7rem; height: 1.7rem; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; display: block; }
 .icon-inline { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: inline-block; vertical-align: -2px; margin-right: 3px; }
@@ -671,14 +648,6 @@ nav .nav-links { display: none; }
 <span class="deco deco-1"><svg class="icon-svg" style="width:2.5rem;height:2.5rem;color:var(--dorado)"><use href="#i-book"/></svg></span>
 <span class="deco deco-2"><svg class="icon-svg" style="width:2rem;height:2rem;color:var(--dorado)"><use href="#i-coffee"/></svg></span>
 <span class="deco deco-3"><svg class="icon-svg" style="width:1.8rem;height:1.8rem;color:var(--dorado)"><use href="#i-pen"/></svg></span>
-<div class="memory-fan">
-<div class="fan-card" style="--i:0"><svg class="icon-svg"><use href="#i-book"/></svg></div>
-<div class="fan-card" style="--i:1"><svg class="icon-svg"><use href="#i-mic"/></svg></div>
-<div class="fan-card" style="--i:2"><svg class="icon-svg"><use href="#i-coffee"/></svg></div>
-<div class="fan-card" style="--i:3"><svg class="icon-svg"><use href="#i-pen"/></svg></div>
-<div class="fan-card" style="--i:4"><svg class="icon-svg"><use href="#i-map"/></svg></div>
-<div class="fan-card" style="--i:5"><svg class="icon-svg"><use href="#i-users"/></svg></div>
-</div>
 <div class="book-card">
 <div class="lc-cover">
 <div class="lc-seal">
