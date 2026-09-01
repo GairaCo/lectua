@@ -127,6 +127,8 @@ transition: border-color .2s, color .2s, background .2s;
 display: inline-block;
 }
 .btn-secondary:hover { border-color: var(--verde); color: var(--blanco); background: var(--verde); }
+.cta-buttons .btn-secondary { color: var(--crema); border-color: var(--crema-oscura); }
+.cta-buttons .btn-secondary:hover { border-color: var(--dorado); color: var(--dorado); background: transparent; }
 
 /* Passport illustration */
 .hero-visual {
@@ -478,9 +480,9 @@ nav .nav-links { display: none; }
 .ev-btn:hover { opacity: .9; }
 .evento-card.prem .ev-btn { background: var(--dorado); color: var(--verde); }
 .ev-nota { font-size: .78rem; color: #999; text-align: center; margin-top: 28px; }
-.ev-qr { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
-.ev-qr img { width: 46px; height: 46px; border-radius: 6px; border: 1px solid var(--crema-oscura); }
-.ev-qr span { font-size: .72rem; color: #8a8070; line-height: 1.3; }
+.ev-qr { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.ev-qr img { width: 92px; height: 92px; border-radius: 8px; border: 1px solid var(--crema-oscura); background: #fff; padding: 6px; }
+.ev-qr span { font-size: .78rem; color: #8a8070; line-height: 1.3; max-width: 140px; }
 @media (max-width: 900px) { .eventos-grid { grid-template-columns: 1fr; } }
 
 /* ── CARRUSEL PÚBLICO: PRÓXIMOS EVENTOS ── */
