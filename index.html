@@ -138,6 +138,7 @@ position: relative;
 .book-card {
 position: relative;
 width: 300px;
+display: block; text-decoration: none; cursor: pointer;
 filter: drop-shadow(0 30px 60px rgba(0,0,0,.45));
 animation: float 4s ease-in-out infinite;
 }
@@ -657,7 +658,7 @@ nav .nav-links { display: none; }
 <span class="deco deco-1"><svg class="icon-svg" style="width:2.5rem;height:2.5rem;color:var(--dorado)"><use href="#i-book"/></svg></span>
 <span class="deco deco-2"><svg class="icon-svg" style="width:2rem;height:2rem;color:var(--dorado)"><use href="#i-coffee"/></svg></span>
 <span class="deco deco-3"><svg class="icon-svg" style="width:1.8rem;height:1.8rem;color:var(--dorado)"><use href="#i-pen"/></svg></span>
-<div class="book-card">
+<a href="#eventos" class="book-card" aria-label="Ver eventos">
 <div class="lc-cover">
 <div class="lc-seal">
 <img src="data:image/webp;base64,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" alt="Lectua" />
@@ -676,7 +677,7 @@ nav .nav-links { display: none; }
 <p class="lc-cupo">Cupo 80 · Entrada libre</p>
 </div>
 </div>
-</div>
+</a>
 </div>
 </div>
 </section>
