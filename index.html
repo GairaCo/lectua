@@ -451,6 +451,8 @@ text-decoration: none; transition: color .2s;
 .tab-content.active { grid-template-columns: 1fr; }
 .includes-list { grid-template-columns: 1fr; }
 nav .nav-links { display: none; }
+.nav-right { display: none; }
+.nav-toggle { display: flex; }
 }
 @media (max-width: 600px) {
 .ciclos-grid { grid-template-columns: 1fr; }
@@ -548,6 +550,19 @@ nav .nav-links { display: none; }
 .nav-entrar:hover { color: var(--verde-medio); }
 .nav-user { color: var(--verde-medio); font-size: .85rem; font-weight: 700; margin-right: 14px; }
 .nav-right { display: flex; align-items: center; }
+.nav-toggle { display: none; background: none; border: none; padding: 8px; cursor: pointer; flex-direction: column; gap: 5px; z-index: 210; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--verde); border-radius: 2px; transition: transform .25s ease, opacity .2s ease; }
+.nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-overlay { position: fixed; inset: 0; background: rgba(20,18,14,.45); z-index: 190; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.mobile-overlay.active { opacity: 1; pointer-events: auto; }
+.mobile-panel { position: fixed; top: 0; right: -85vw; width: min(85vw, 320px); height: 100vh; background: var(--crema); box-shadow: -10px 0 30px rgba(20,18,14,.2); z-index: 195; transition: right .3s ease; display: flex; flex-direction: column; padding: 90px 32px 32px; overflow-y: auto; }
+.mobile-panel.active { right: 0; }
+.mobile-panel .mp-link { font-family: "Playfair Display", serif; font-size: 1.1rem; color: var(--verde); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--crema-oscura); }
+.mobile-panel .mp-auth-row { margin-top: 20px; }
+.mobile-panel .mp-auth-row a.nav-entrar, .mobile-panel .mp-auth-row .nav-user { font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: #6b6558; text-decoration: none; }
+.mobile-panel .mp-cta { margin-top: auto; background: var(--coral); color: var(--blanco); text-align: center; padding: 14px 20px; border-radius: 24px; font-weight: 700; text-decoration: none; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,13,.78); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--crema); border-radius: 16px; max-width: 400px; width: 100%; padding: 36px 32px 28px; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
@@ -638,7 +653,42 @@ nav .nav-links { display: none; }
 <span id="nav-auth"><a class="nav-entrar" onclick="openAuth('login')">Entrar</a></span>
 <a href="#lectuamigos" class="nav-cta">Hazte Lectuamigo</a>
 </div>
+<button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+<span></span><span></span><span></span>
+</button>
 </nav>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-panel" id="mobilePanel">
+<a href="#que-es" class="mp-link">¿Qué es?</a>
+<a href="#lo-que-hacemos" class="mp-link">Lo que hacemos</a>
+<a href="#ciclos" class="mp-link">Los 4 ciclos</a>
+<a href="#beneficios" class="mp-link">Beneficios</a>
+<a href="#eventos" class="mp-link">Eventos</a>
+<a href="#empresas" class="mp-link">Empresas</a>
+<div class="mp-auth-row" id="mpAuth"></div>
+<a href="#lectuamigos" class="mp-cta">Hazte Lectuamigo</a>
+</div>
+<script>
+(function(){
+var toggle = document.getElementById("navToggle");
+var panel = document.getElementById("mobilePanel");
+var overlay = document.getElementById("mobileOverlay");
+function openPanel(){
+document.getElementById("mpAuth").innerHTML = document.getElementById("nav-auth").innerHTML;
+panel.classList.add("active"); overlay.classList.add("active"); toggle.classList.add("active");
+toggle.setAttribute("aria-expanded","true");
+}
+function closePanel(){
+panel.classList.remove("active"); overlay.classList.remove("active"); toggle.classList.remove("active");
+toggle.setAttribute("aria-expanded","false");
+}
+toggle.addEventListener("click", function(){
+panel.classList.contains("active") ? closePanel() : openPanel();
+});
+overlay.addEventListener("click", closePanel);
+panel.addEventListener("click", function(e){ if (e.target.tagName === "A") { closePanel(); } });
+})();
+</script>
 
 <!-- ── HERO ── -->
 <section class="hero" id="inicio">
